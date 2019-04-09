@@ -83,8 +83,8 @@ public class DbHelper extends SQLiteOpenHelper {
         return processId;
     }
 
-    public List<Datum> getConfig(){
-        List<Datum> list = new ArrayList<Datum>();
+    public List<String> getConfig(){
+        List<String> list = new ArrayList<>();
         Cursor c = null ;
         try {
 
@@ -96,19 +96,7 @@ public class DbHelper extends SQLiteOpenHelper {
             if (c.moveToFirst()) {
                 do {
 
-                    Datum datum = new Datum();
-                    datum.setParamCode(c.getString(c.getColumnIndex(PARAM_CODE)));
-                    datum.setParamType(c.getString(c.getColumnIndex(PARAM_TYPE)));
-                    datum.setDesc(c.getString(c.getColumnIndex(DESCRIPTION)));
-                    datum.setConfigVal(c.getString(c.getColumnIndex(CONFIG_VAL)));
-                    datum.setUserId(c.getInt(c.getColumnIndex(USERID)));
-                    datum.setCd(c.getString(c.getColumnIndex(CD)));
-                    datum.setMd(c.getString(c.getColumnIndex(MD)));
-
-
-
-
-                    list.add(datum);
+                list.add(c.getString(c.getColumnIndex(CONFIG_VAL)));
                 } while (c.moveToNext());
             }
 

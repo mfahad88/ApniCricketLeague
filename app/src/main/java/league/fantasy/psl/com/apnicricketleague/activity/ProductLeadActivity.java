@@ -28,7 +28,7 @@ public class ProductLeadActivity extends AppCompatActivity implements View.OnCli
     private Button btn_submit;
     private String name,mobile,email,comment,city;
     private DbHelper dbHelper;
-    private ArrayAdapter<Datum> adapter;
+    private ArrayAdapter<String> adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +45,7 @@ public class ProductLeadActivity extends AppCompatActivity implements View.OnCli
         spinner_comment=findViewById(R.id.spinner_comment);
         btn_submit=findViewById(R.id.btn_submit);
         dbHelper=new DbHelper(this);
-        adapter=new ArrayAdapter<Datum>(this,android.R.layout.simple_spinner_item,dbHelper.getConfig());
+        adapter=new ArrayAdapter<>(this,android.R.layout.simple_spinner_item,dbHelper.getConfig());
         spinner_comment.setAdapter(adapter);
     }
 
