@@ -26,7 +26,7 @@ public class ProductLeadActivity extends AppCompatActivity implements View.OnCli
     private EditText edt_name,edt_contact,edt_email,edt_city;
     private Spinner spinner_comment;
     private Button btn_submit;
-    private String name,mobile,email,comment,city;
+    private String name,mobile,email,city;
     private DbHelper dbHelper;
     private ArrayAdapter<String> adapter;
     @Override
@@ -47,6 +47,7 @@ public class ProductLeadActivity extends AppCompatActivity implements View.OnCli
         dbHelper=new DbHelper(this);
         adapter=new ArrayAdapter<>(this,android.R.layout.simple_spinner_item,dbHelper.getConfig());
         spinner_comment.setAdapter(adapter);
+
     }
 
     @Override
@@ -70,7 +71,7 @@ public class ProductLeadActivity extends AppCompatActivity implements View.OnCli
                 }else{
                     try{
                         ApiClient.getInstance().insertProductLead(
-                                new ProductLeadRequest(1001,name,email,mobile,"",city,"Mobile","1",this.getClass().getName()+".btn_submit.onClick"))
+                                new ProductLeadRequest(1001,name,email,mobile,spinner_comment.getSelectedItem().toString(),city,"Mobile","1",this.getClass().getName()+".btn_submit.onClick"))
                                 .enqueue(this);
                     }catch (Exception e){
                         e.printStackTrace();

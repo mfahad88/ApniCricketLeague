@@ -4,7 +4,7 @@ package league.fantasy.psl.com.apnicricketleague.model.request;
 public class ProductLeadRequest {
 
 
-    private int userId;
+    private int user_id;
     private String name;
     private String email;
     private String contact;
@@ -14,8 +14,8 @@ public class ProductLeadRequest {
     private String prodSts;
     private String methodName;
 
-    public ProductLeadRequest(int userId, String name, String email, String contact, String userComment, String city, String channelId, String prodSts, String methodName) {
-        this.userId = userId;
+    public ProductLeadRequest(int user_id, String name, String email, String contact, String userComment, String city, String channelId, String prodSts, String methodName) {
+        this.user_id = user_id;
         this.name = name;
         this.email = email;
         this.contact = contact;
@@ -27,11 +27,11 @@ public class ProductLeadRequest {
     }
 
     public int getUserId() {
-        return userId;
+        return user_id;
     }
 
     public void setUserId(int userId) {
-        this.userId = userId;
+        this.user_id = user_id;
     }
 
     public String getName() {

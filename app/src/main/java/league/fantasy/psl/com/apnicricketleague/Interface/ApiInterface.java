@@ -4,6 +4,7 @@ import league.fantasy.psl.com.apnicricketleague.model.request.AgentBeanRequest;
 import league.fantasy.psl.com.apnicricketleague.model.request.ConfigBeanRequest;
 import league.fantasy.psl.com.apnicricketleague.model.request.ContactBean;
 import league.fantasy.psl.com.apnicricketleague.model.request.ProductLeadRequest;
+import league.fantasy.psl.com.apnicricketleague.model.request.TestBeanRequest;
 import league.fantasy.psl.com.apnicricketleague.model.response.Agent.AgentBeanResponse;
 import league.fantasy.psl.com.apnicricketleague.model.response.Config.ConfigBeanResponse;
 import league.fantasy.psl.com.apnicricketleague.model.response.ProductLead.ProductLeadResponse;
@@ -23,4 +24,7 @@ public interface ApiInterface {
 
     @POST("insertProductLead")
     Call<ProductLeadResponse> insertProductLead(@Body ProductLeadRequest beanRequest);
+
+    @POST("testService")
+    Call<String> testService(@Body TestBeanRequest beanRequest);
 }
