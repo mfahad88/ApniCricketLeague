@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="20dp"
+    android:layout_centerInParent="true"
+    tools:context=".activity.ProductLeadActivity">
+
+    <EditText
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_centerHorizontal="true"
+        android:hint="Name"
+        android:longClickable="false"
+        android:inputType="text"
+        android:digits="abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        android:id="@+id/edt_name"
+        android:layout_alignParentTop="true"
+        />
+
+    <EditText
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/edt_name"
+        android:layout_centerHorizontal="true"
+        android:inputType="number"
+        android:digits="0123456789"
+        android:maxLength="11"
+        android:longClickable="false"
+        android:hint="03XX-XXXXXXX"
+        android:id="@+id/edt_contact"/>
+
+    <EditText
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/edt_contact"
+        android:layout_centerHorizontal="true"
+        android:inputType="textEmailAddress"
+        android:longClickable="false"
+        android:hint="Email"
+        android:id="@+id/edt_email"/>
+
+
+    <EditText
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/edt_email"
+        android:layout_centerHorizontal="true"
+        android:inputType="textMultiLine"
+        android:longClickable="false"
+        android:hint="City"
+        android:maxLength="500"
+        android:id="@+id/edt_city"/>
+
+
+    <Spinner
+        android:id="@+id/spinner_comment"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/edt_city"
+        android:layout_centerHorizontal="true"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="submit"
+        android:id="@+id/btn_submit"
+        android:layout_below="@id/spinner_comment"
+        android:layout_centerHorizontal="true"/>
+
+</RelativeLayout>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="20dp"
+    tools:context=".activity.Contactus">
+
+    <EditText
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_centerHorizontal="true"
+        android:hint="Name"
+        android:longClickable="false"
+        android:inputType="text"
+        android:digits="abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        android:id="@+id/edt_name"
+        android:layout_alignParentTop="true"
+        />
+
+    <EditText
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/edt_name"
+        android:layout_centerHorizontal="true"
+        android:inputType="number"
+        android:digits="0123456789"
+        android:maxLength="11"
+        android:longClickable="false"
+        android:hint="03XX-XXXXXXX"
+        android:id="@+id/edt_contact"/>
+
+    <EditText
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/edt_contact"
+        android:layout_centerHorizontal="true"
+        android:inputType="textEmailAddress"
+        android:longClickable="false"
+        android:hint="Email"
+        android:id="@+id/edt_email"/>
+
+
+    <EditText
+        android:layout_width="200dp"
+        android:layout_height="100dp"
+        android:layout_below="@id/edt_email"
+        android:layout_centerHorizontal="true"
+        android:inputType="textMultiLine"
+        android:longClickable="false"
+        android:hint="Question"
+        android:gravity="start"
+        android:maxLength="500"
+        android:id="@+id/edt_question"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="submit"
+        android:id="@+id/btn_submit"
+        android:layout_below="@id/edt_question"
+        android:layout_centerHorizontal="true"/>
+</RelativeLayout>
