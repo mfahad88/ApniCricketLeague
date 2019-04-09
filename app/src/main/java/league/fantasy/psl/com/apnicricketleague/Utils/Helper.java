@@ -43,9 +43,9 @@ public class Helper {
     }
 
     @SuppressLint("NewApi")
-    public static String[] encrypt(String messsage){
-        String encryptedSecretKey = null;
-        String[] str=new String[2];
+    public static StringBuilder[] encrypt(String messsage){
+        StringBuilder encryptedSecretKey = null;
+        StringBuilder[] str=new StringBuilder[2];
         try{
 
 //            Base64.Encoder encoder = Base64.getEncoder();
@@ -65,7 +65,8 @@ public class Helper {
             SecretKeySpec skeySpec = new SecretKeySpec(raw, "AES");
             Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
             cipher.init(Cipher.ENCRYPT_MODE, skeySpec, new IvParameterSpec(new byte[16]));
-            String cipherTextString = Base64.encodeToString(cipher.doFinal(text.getBytes(Charset.forName("UTF-8"))),Base64.DEFAULT);
+            StringBuilder cipherTextString = new StringBuilder();
+            cipherTextString.append(Base64.encodeToString(cipher.doFinal(text.getBytes(Charset.forName("UTF-8"))),Base64.DEFAULT));
             System.out.println("cipherTextString: [Text with secret key encryption ]"+cipherTextString);
             X509EncodedKeySpec publicSpec = new X509EncodedKeySpec(Base64.decode(publicKeyString,Base64.DEFAULT));
             KeyFactory keyFactory = KeyFactory.getInstance("RSA");
@@ -75,7 +76,8 @@ public class Helper {
             // 6. encrypt secret key using public key
             Cipher cipher2 = Cipher.getInstance("RSA/ECB/OAEPWithSHA1AndMGF1Padding");
             cipher2.init(Cipher.ENCRYPT_MODE, publicKey);
-            encryptedSecretKey = Base64.encodeToString(cipher2.doFinal(a),Base64.DEFAULT);
+            encryptedSecretKey =new StringBuilder();
+                    encryptedSecretKey.append(Base64.encodeToString(cipher2.doFinal(a),Base64.DEFAULT));
             System.out.println("encryptedSecretKey: "+encryptedSecretKey);
             str[0]=cipherTextString;
             str[1]=encryptedSecretKey;

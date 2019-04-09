@@ -27,7 +27,7 @@ public class SplashActivity extends AppCompatActivity implements Callback<Config
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         Log.v("OkHttp",Helper.encrypt("1")[0]+"\n"+Helper.encrypt("1")[1]);
-        ApiClient.getInstance().testService(new TestBeanRequest(Helper.encrypt("Hello")[0],Helper.encrypt("Hello")[1]))
+        ApiClient.getInstance().testService(new TestBeanRequest(Helper.encrypt("Hello")[0],Helper.encrypt("Hello")[1].toString()))
                 .enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {
