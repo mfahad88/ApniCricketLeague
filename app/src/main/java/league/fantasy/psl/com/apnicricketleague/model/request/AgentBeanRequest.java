@@ -54,4 +54,15 @@ public class AgentBeanRequest {
     public void setMethod_Name(String method_Name) {
         this.method_Name = method_Name;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "lat='" + lat + '\'' +
+                ", lng='" + lng + '\'' +
+                ", dist='" + dist + '\'' +
+                ", userId=" + userId +
+                ", method_Name='" + method_Name + '\'' +
+                '}';
+    }
 }

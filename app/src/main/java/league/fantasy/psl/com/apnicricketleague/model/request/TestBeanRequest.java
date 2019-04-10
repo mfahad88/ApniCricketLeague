@@ -1,19 +1,16 @@
 package league.fantasy.psl.com.apnicricketleague.model.request;
 
 public class TestBeanRequest {
-    private StringBuilder request;
+    private String request;
     private String key;
 
-    public TestBeanRequest(StringBuilder request, String key) {
-        this.request = request;
-        this.key = key;
-    }
 
-    public StringBuilder getRequest() {
+
+    public String getRequest() {
         return request;
     }
 
-    public void setRequest(StringBuilder request) {
+    public void setRequest(String request) {
         this.request = request;
     }
 
@@ -23,5 +20,13 @@ public class TestBeanRequest {
 
     public void setKey(String key) {
         this.key = key;
+    }
+
+    @Override
+    public String toString() {
+        return "TestBeanRequest{" +
+                "request='" + request + '\'' +
+                ", key='" + key + '\'' +
+                '}';
     }
 }

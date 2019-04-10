@@ -23,6 +23,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.io.IOException;
 
 import league.fantasy.psl.com.apnicricketleague.R;
@@ -134,6 +137,8 @@ public class AgentLocatorActivity extends AppCompatActivity implements OnMapRead
             case R.id.btn_agent:
                 tracker=new GPSTracker(this);
                 try{
+
+
                     ApiClient.getInstance().getAgents(new AgentBeanRequest(String.valueOf(tracker.getLatitude()),String.valueOf(tracker.getLongitude()),"5",1,this.getClass().getSimpleName()+".btn_agent.onClick"))
                             .enqueue(this);
                 }catch (Exception e){

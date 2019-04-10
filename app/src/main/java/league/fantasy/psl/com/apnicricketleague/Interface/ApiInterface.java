@@ -10,7 +10,9 @@ import league.fantasy.psl.com.apnicricketleague.model.response.Config.ConfigBean
 import league.fantasy.psl.com.apnicricketleague.model.response.ProductLead.ProductLeadResponse;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 public interface ApiInterface {
     @POST("agents")
@@ -27,4 +29,7 @@ public interface ApiInterface {
 
     @POST("testService")
     Call<String> testService(@Body TestBeanRequest beanRequest);
+
+/*    @POST("text")
+    Call<String> testService(@Body TestBeanRequest beanRequest);*/
 }

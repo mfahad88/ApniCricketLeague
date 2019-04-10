@@ -20,9 +20,13 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
+import league.fantasy.psl.com.apnicricketleague.model.request.TestBeanRequest;
+
 public class Helper {
     public static final Pattern VALID_EMAIL_ADDRESS_REGEX =  Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
-    public static final String publicKeyString="MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCqC2o4pAfb4ILRhDQfNmOmHxKveUxI+hxrx4YKdru0hAZFlxl0yVv7pGSR6oD8H5lDXxnGXfSYDjWfd67tL3d0jNCIblM65e0Xrd9HXvWDjeMRINov+t1TUBlcY0VLxYw8XpFI8WAhtZMuuWZmsAKZAyAD3L2UlHUzfXcZbhbCIwIDAQAB";
+    public static final String publicKeyString="MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCVMxpYZO46njcjm/iizphuiSJlL5P2kj16WJRT\n" +
+            "OmD+rJ/DG6IsOqhEZWHOu2SUpGp+OFbNzYdRGkuDl7oWoe95v5QOMA7+8qBgwCr1/OZWp+aHkxxM\n" +
+            "/to87hLEmFzWgiC8zzyHvWDzjvNJEGfPa9J0RDYjxEES7kuyhRY4KLxDowIDAQAB";
     public static void showAlertNetural(Context ctx, String title, String message){
         AlertDialog.Builder builder=new AlertDialog.Builder(ctx);
         builder.setTitle(title).setMessage(message);
@@ -43,9 +47,9 @@ public class Helper {
     }
 
     @SuppressLint("NewApi")
-    public static StringBuilder[] encrypt(String messsage){
-        StringBuilder encryptedSecretKey = null;
-        StringBuilder[] str=new StringBuilder[2];
+    public static TestBeanRequest encrypt(String messsage){
+        String encryptedSecretKey = null;
+        TestBeanRequest request =new TestBeanRequest();
         try{
 
 //            Base64.Encoder encoder = Base64.getEncoder();
@@ -65,26 +69,28 @@ public class Helper {
             SecretKeySpec skeySpec = new SecretKeySpec(raw, "AES");
             Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
             cipher.init(Cipher.ENCRYPT_MODE, skeySpec, new IvParameterSpec(new byte[16]));
-            StringBuilder cipherTextString = new StringBuilder();
-            cipherTextString.append(Base64.encodeToString(cipher.doFinal(text.getBytes(Charset.forName("UTF-8"))),Base64.DEFAULT));
+            /*StringBuffer cipherTextString = new StringBuffer();
+            cipherTextString.append(Base64.encodeToString(cipher.doFinal(text.getBytes(Charset.forName("UTF-8"))),Base64.DEFAULT));*/
+            String cipherTextString =Base64.encodeToString(cipher.doFinal(text.getBytes(Charset.forName("UTF-8"))),Base64.DEFAULT) ;
             System.out.println("cipherTextString: [Text with secret key encryption ]"+cipherTextString);
             X509EncodedKeySpec publicSpec = new X509EncodedKeySpec(Base64.decode(publicKeyString,Base64.DEFAULT));
             KeyFactory keyFactory = KeyFactory.getInstance("RSA");
             PublicKey publicKey = keyFactory.generatePublic(publicSpec);
             byte[] a= alpha(Base64.encodeToString(secretKey.getEncoded(),Base64.DEFAULT));
-            System.out.println("Alpha:: "+a);
+
+          //  System.out.println("Alpha:: "+a);
             // 6. encrypt secret key using public key
             Cipher cipher2 = Cipher.getInstance("RSA/ECB/OAEPWithSHA1AndMGF1Padding");
             cipher2.init(Cipher.ENCRYPT_MODE, publicKey);
-            encryptedSecretKey =new StringBuilder();
-                    encryptedSecretKey.append(Base64.encodeToString(cipher2.doFinal(a),Base64.DEFAULT));
+            encryptedSecretKey =Base64.encodeToString(cipher2.doFinal(secretKey.getEncoded()),Base64.DEFAULT);
             System.out.println("encryptedSecretKey: "+encryptedSecretKey);
-            str[0]=cipherTextString;
-            str[1]=encryptedSecretKey;
+            request.setRequest(cipherTextString);
+            request.setKey(encryptedSecretKey);
+            System.out.println(request.toString());
         }catch (Exception e){
             e.printStackTrace();
         }
-        return str;
+        return request;
     }
 
     public static byte[] alpha(String value) {
@@ -96,7 +102,7 @@ public class Helper {
         //System.out.println(ee);
         //System.out.println(rem);
         rem=ee+rem+dd;
-        //System.out.println(rem);
+        System.out.println("Alphaaa:"+rem);
 
         return rem.getBytes();
 
