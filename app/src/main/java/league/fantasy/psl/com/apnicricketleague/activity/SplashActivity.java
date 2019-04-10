@@ -32,17 +32,15 @@ public class SplashActivity extends AppCompatActivity implements Callback<Config
         //Log.v("OkHttp",Helper.encrypt("1")[0]+"\n"+Helper.encrypt("1")[1]);
         JSONObject obj=new JSONObject();
        try{
-           obj.put("lat","27.5");
-           obj.put("lng","67.9");
-           obj.put("dist","5");
-           obj.put("userId",1);
-           obj.put("method_Name",this.getClass().getSimpleName()+".btn_agent.onClick");
+           obj.put("param_type","GF");
+           obj.put("userId","1001");
+           obj.put("method_Name",this.getClass().getSimpleName()+".onCreate");
            System.out.println(obj.toString());
        }catch (Exception e){
            e.printStackTrace();
        }
 
-        ApiClient.getInstance().testService(Helper.encrypt(obj.toString()))
+     /*   ApiClient.getInstance().testService(Helper.encrypt(obj.toString()))
                 .enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {
@@ -54,16 +52,16 @@ public class SplashActivity extends AppCompatActivity implements Callback<Config
                         Toast.makeText(SplashActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
-
-      /*  ApiClient.getInstance().getConfig(new ConfigBeanRequest("GF","1"))
+*/
+        ApiClient.getInstance().getConfig(Helper.encrypt(obj.toString()))
                 .enqueue(this);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent=new Intent(getApplicationContext(),ProductLeadActivity.class);
+                Intent intent=new Intent(getApplicationContext(),Contactus.class);
                 startActivity(intent);
             }
-        },500);*/
+        },500);
     }
 
     @Override

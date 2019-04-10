@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import org.json.JSONObject;
+
 import java.io.IOException;
 
 import league.fantasy.psl.com.apnicricketleague.R;
@@ -64,7 +66,14 @@ public class Contactus extends AppCompatActivity implements View.OnClickListener
             else{
 
                 try{
-                    ApiClient.getInstance().insertComplaint(new ContactBean(1,name,email,mobile,question,this.getClass().getSimpleName()+".btn_submit.onClick"))
+                    JSONObject object=new JSONObject();
+                    object.put("user_id",1001);
+                    object.put("name",name);
+                    object.put("email",email);
+                    object.put("mobile",mobile);
+                    object.put("comments",question);
+                    object.put("method_Name",this.getClass().getSimpleName()+".btn_submit.onClick");
+                    ApiClient.getInstance().insertComplaint(Helper.encrypt(object.toString()))
                             .enqueue(this);
                 }catch (Exception e){
                     e.printStackTrace();

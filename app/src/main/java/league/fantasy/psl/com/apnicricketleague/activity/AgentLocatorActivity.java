@@ -137,9 +137,13 @@ public class AgentLocatorActivity extends AppCompatActivity implements OnMapRead
             case R.id.btn_agent:
                 tracker=new GPSTracker(this);
                 try{
-
-
-                    ApiClient.getInstance().getAgents(new AgentBeanRequest(String.valueOf(tracker.getLatitude()),String.valueOf(tracker.getLongitude()),"5",1,this.getClass().getSimpleName()+".btn_agent.onClick"))
+                    JSONObject object=new JSONObject();
+                    object.put("lat",String.valueOf(tracker.getLatitude()));
+                    object.put("lng",String.valueOf(tracker.getLongitude()));
+                    object.put("dist","5");
+                    object.put("userId",1001);
+                    object.put("method_Name",this.getClass().getSimpleName()+".btn_agent.onClick");
+                    ApiClient.getInstance().getAgents(Helper.encrypt(object.toString()))
                             .enqueue(this);
                 }catch (Exception e){
                     e.printStackTrace();

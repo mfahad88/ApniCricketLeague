@@ -16,13 +16,13 @@ import retrofit2.http.Path;
 
 public interface ApiInterface {
     @POST("agents")
-    Call<AgentBeanResponse> getAgents(@Body AgentBeanRequest beanRequest);
+    Call<AgentBeanResponse> getAgents(@Body TestBeanRequest beanRequest);
 
     @POST("insertComplaint")
-    Call<ContactBean> insertComplaint(@Body ContactBean beanRequest);
+    Call<ContactBean> insertComplaint(@Body TestBeanRequest beanRequest);
 
     @POST("config")
-    Call<ConfigBeanResponse> getConfig(@Body ConfigBeanRequest beanRequest);
+    Call<ConfigBeanResponse> getConfig(@Body TestBeanRequest beanRequest);
 
     @POST("insertProductLead")
     Call<ProductLeadResponse> insertProductLead(@Body ProductLeadRequest beanRequest);

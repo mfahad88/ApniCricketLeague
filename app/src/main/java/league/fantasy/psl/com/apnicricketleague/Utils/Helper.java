@@ -49,9 +49,9 @@ public class Helper {
     @SuppressLint("NewApi")
     public static TestBeanRequest encrypt(String messsage){
         String encryptedSecretKey = null;
-        TestBeanRequest request =new TestBeanRequest();
+        TestBeanRequest request =null;
         try{
-
+            request =new TestBeanRequest();
 //            Base64.Encoder encoder = Base64.getEncoder();
             KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
             keyGenerator.init(128); // AES is currently available in three key sizes: 128, 192 and 256 bits.The design and strength of all key lengths of the AES algorithm are sufficient to protect classified information up to the SECRET level
@@ -66,6 +66,7 @@ public class Helper {
 
             // 3. encrypt string using secret key
             byte[] raw = secretKey.getEncoded();
+
             SecretKeySpec skeySpec = new SecretKeySpec(raw, "AES");
             Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
             cipher.init(Cipher.ENCRYPT_MODE, skeySpec, new IvParameterSpec(new byte[16]));
@@ -73,10 +74,14 @@ public class Helper {
             cipherTextString.append(Base64.encodeToString(cipher.doFinal(text.getBytes(Charset.forName("UTF-8"))),Base64.DEFAULT));*/
             String cipherTextString =Base64.encodeToString(cipher.doFinal(text.getBytes(Charset.forName("UTF-8"))),Base64.DEFAULT) ;
             System.out.println("cipherTextString: [Text with secret key encryption ]"+cipherTextString);
+
+
+
             X509EncodedKeySpec publicSpec = new X509EncodedKeySpec(Base64.decode(publicKeyString,Base64.DEFAULT));
             KeyFactory keyFactory = KeyFactory.getInstance("RSA");
             PublicKey publicKey = keyFactory.generatePublic(publicSpec);
             byte[] a= alpha(Base64.encodeToString(secretKey.getEncoded(),Base64.DEFAULT));
+
 
           //  System.out.println("Alpha:: "+a);
             // 6. encrypt secret key using public key
