@@ -7,10 +7,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import org.json.JSONObject;
 
 import java.io.IOException;
 
+import league.fantasy.psl.com.apnicricketleague.AnalyticsApplication;
 import league.fantasy.psl.com.apnicricketleague.R;
 import league.fantasy.psl.com.apnicricketleague.Utils.DbHelper;
 import league.fantasy.psl.com.apnicricketleague.Utils.Helper;
@@ -25,11 +29,16 @@ import retrofit2.Response;
 
 public class SplashActivity extends AppCompatActivity implements Callback<ConfigBeanResponse> {
 
+    private Tracker mTracker;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        AnalyticsApplication application = (AnalyticsApplication) getApplication();
+        mTracker = application.getDefaultTracker();
         //Log.v("OkHttp",Helper.encrypt("1")[0]+"\n"+Helper.encrypt("1")[1]);
+        mTracker.enableAutoActivityTracking(true);
         JSONObject obj=new JSONObject();
        try{
            obj.put("param_type","GF");
@@ -58,7 +67,7 @@ public class SplashActivity extends AppCompatActivity implements Callback<Config
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent=new Intent(getApplicationContext(),Contactus.class);
+                Intent intent=new Intent(getApplicationContext(),MainActivity.class);
                 startActivity(intent);
             }
         },500);
