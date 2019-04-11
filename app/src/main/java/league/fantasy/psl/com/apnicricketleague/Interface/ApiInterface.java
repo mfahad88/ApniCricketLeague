@@ -30,6 +30,9 @@ public interface ApiInterface {
     @POST("testService")
     Call<String> testService(@Body TestBeanRequest beanRequest);
 
+    @POST("testService")
+    Call<String> userRegisteration(@Body TestBeanRequest beanRequest);
+
 /*    @POST("text")
     Call<String> testService(@Body TestBeanRequest beanRequest);*/
 }
