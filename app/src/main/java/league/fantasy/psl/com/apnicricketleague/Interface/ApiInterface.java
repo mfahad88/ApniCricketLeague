@@ -25,7 +25,7 @@ public interface ApiInterface {
     Call<ConfigBeanResponse> getConfig(@Body TestBeanRequest beanRequest);
 
     @POST("insertProductLead")
-    Call<ProductLeadResponse> insertProductLead(@Body ProductLeadRequest beanRequest);
+    Call<ProductLeadResponse> insertProductLead(@Body TestBeanRequest beanRequest);
 
     @POST("testService")
     Call<String> testService(@Body TestBeanRequest beanRequest);

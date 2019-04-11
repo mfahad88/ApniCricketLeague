@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import org.json.JSONObject;
+
 import java.io.IOException;
 
 import league.fantasy.psl.com.apnicricketleague.R;
@@ -70,8 +72,17 @@ public class ProductLeadActivity extends AppCompatActivity implements View.OnCli
                     Helper.showAlertNetural(this, "Error", "Please provide city");
                 }else{
                     try{
-                        ApiClient.getInstance().insertProductLead(
-                                new ProductLeadRequest(1001,name,email,mobile,spinner_comment.getSelectedItem().toString(),city,"Mobile","1",this.getClass().getName()+".btn_submit.onClick"))
+                        JSONObject object=new JSONObject();
+                        object.put("user_id",1001);
+                        object.put("name",name);
+                        object.put("contact",mobile);
+                        object.put("user_comment",spinner_comment.getSelectedItem().toString());
+                        object.put("city",city);
+                        object.put("channel_id","Mobile");
+                        object.put("prod_sts","1");
+                        object.put("method_Name",this.getClass().getName()+".btn_submit.onClick");
+
+                        ApiClient.getInstance().insertProductLead(Helper.encrypt(object.toString()))
                                 .enqueue(this);
                     }catch (Exception e){
                         e.printStackTrace();
