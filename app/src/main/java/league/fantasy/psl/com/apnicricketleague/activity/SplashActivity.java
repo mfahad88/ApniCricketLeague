@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.facebook.FacebookSdk;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
@@ -35,6 +36,12 @@ public class SplashActivity extends AppCompatActivity implements Callback<Config
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        //Helper.printKeyHash(this);
+        FacebookSdk.setApplicationId("2212436592395338");
+        FacebookSdk.sdkInitialize(this.getApplicationContext());
+
+        FacebookSdk.setAutoLogAppEventsEnabled(true);
+
         AnalyticsApplication application = (AnalyticsApplication) getApplication();
         mTracker = application.getDefaultTracker();
         //Log.v("OkHttp",Helper.encrypt("1")[0]+"\n"+Helper.encrypt("1")[1]);
