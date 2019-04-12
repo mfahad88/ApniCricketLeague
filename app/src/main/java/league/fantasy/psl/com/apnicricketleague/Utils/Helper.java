@@ -50,6 +50,7 @@ public class Helper {
     public static boolean validateEmail(String emailStr) {
 
         Matcher matcher = VALID_EMAIL_ADDRESS_REGEX .matcher(emailStr);
+        Log.e("email", String.valueOf(matcher.find()));
         return matcher.find();
     }
 

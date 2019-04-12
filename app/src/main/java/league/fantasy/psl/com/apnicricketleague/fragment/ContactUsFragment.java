@@ -1,9 +1,12 @@
-package league.fantasy.psl.com.apnicricketleague.activity;
+package league.fantasy.psl.com.apnicricketleague.fragment;
 
-import android.support.v7.app.AppCompatActivity;
+
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -19,26 +22,33 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Contactus extends AppCompatActivity implements View.OnClickListener,Callback<ContactBean> {
+public class ContactUsFragment extends Fragment implements View.OnClickListener, Callback<ContactBean> {
+    private View mView;
     private EditText edt_name,edt_contact,edt_email,edt_question;
     private Button btn_submit;
     private String name,mobile,email,question;
+
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_contactus);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        mView=inflater.inflate(R.layout.fragment_contact_us, container, false);
         init();
 
         btn_submit.setOnClickListener(this);
+        return mView;
     }
 
     private void init() {
-        edt_name=findViewById(R.id.edt_name);
-        edt_contact=findViewById(R.id.edt_contact);
-        edt_email=findViewById(R.id.edt_email);
-        edt_question=findViewById(R.id.edt_question);
-        btn_submit=findViewById(R.id.btn_submit);
+
+        edt_name=mView.findViewById(R.id.edt_name);
+        edt_contact=mView.findViewById(R.id.edt_contact);
+        edt_email=mView.findViewById(R.id.edt_email);
+        edt_question=mView.findViewById(R.id.edt_question);
+        btn_submit=mView.findViewById(R.id.btn_submit);
     }
+
 
     @Override
     public void onClick(View v) {
@@ -48,19 +58,19 @@ public class Contactus extends AppCompatActivity implements View.OnClickListener
         question=edt_question.getText().toString();
         if(v.getId()==R.id.btn_submit){
             if(TextUtils.isEmpty(name) && TextUtils.isEmpty(mobile) && TextUtils.isEmpty(email) && TextUtils.isEmpty(question)){
-                Helper.showAlertNetural(this,"Error", "Empty Fields not allowed");
+                Helper.showAlertNetural(mView.getContext(),"Error", "Empty Fields not allowed");
             }
             else if(TextUtils.isEmpty(name) || name.trim().length()<4){
-                Helper.showAlertNetural(this,"Error", "Please enter name");
+                Helper.showAlertNetural(mView.getContext(),"Error", "Please enter name");
             }
-           else if(TextUtils.isEmpty(mobile) || mobile.trim().length()<11){
-                Helper.showAlertNetural(this,"Error", "Please enter contact number");
+            else if(TextUtils.isEmpty(mobile) || mobile.trim().length()<11){
+                Helper.showAlertNetural(mView.getContext(),"Error", "Please enter contact number");
             }
             else if(TextUtils.isEmpty(email) || !Helper.validateEmail(email)){
-                Helper.showAlertNetural(this,"Error", "Please enter email address");
+                Helper.showAlertNetural(mView.getContext(),"Error", "Please enter email address");
             }
             else if(TextUtils.isEmpty(question) || question.trim().length()<3){
-                Helper.showAlertNetural(this,"Error", "Please provide question");
+                Helper.showAlertNetural(mView.getContext(),"Error", "Please provide question");
             }
 
             else{
@@ -77,24 +87,16 @@ public class Contactus extends AppCompatActivity implements View.OnClickListener
                             .enqueue(this);
                 }catch (Exception e){
                     e.printStackTrace();
-                    Helper.showAlertNetural(this,"Error",e.getMessage());
+                    Helper.showAlertNetural(mView.getContext(),"Error",e.getMessage());
                 }
             }
         }
     }
 
     @Override
-    public void onBackPressed() {
-
-        super.onBackPressed();
-        System.exit(0);
-        finish();
-    }
-
-    @Override
     public void onResponse(Call<ContactBean> call, Response<ContactBean> response) {
         if(response.code()==200){
-            Helper.showAlertNetural(Contactus.this,"Success","Submitted");
+            Helper.showAlertNetural(mView.getContext(),"Success","Submitted");
             edt_name.getText().clear();
             edt_contact.getText().clear();
             edt_email.getText().clear();
@@ -106,7 +108,7 @@ public class Contactus extends AppCompatActivity implements View.OnClickListener
             edt_question.clearFocus();
         }else{
             try {
-                Helper.showAlertNetural(Contactus.this,"Error",response.errorBody().string());
+                Helper.showAlertNetural(mView.getContext(),"Error",response.errorBody().string());
             } catch (IOException e) {
                 e.printStackTrace();
 
@@ -117,6 +119,6 @@ public class Contactus extends AppCompatActivity implements View.OnClickListener
     @Override
     public void onFailure(Call<ContactBean> call, Throwable t) {
         t.fillInStackTrace();
-        Helper.showAlertNetural(Contactus.this,"Error",t.getMessage());
+        Helper.showAlertNetural(mView.getContext(),"Error",t.getMessage());
     }
 }
