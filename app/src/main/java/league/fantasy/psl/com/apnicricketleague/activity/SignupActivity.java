@@ -24,6 +24,12 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.analytics.Tracker;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -51,7 +57,7 @@ import retrofit2.Response;
 
 public class SignupActivity extends AppCompatActivity implements View.OnClickListener {
     private EditText edt_first_name,edt_last_name,edt_password,edt_email,edt_mobile_no;
-    private Button btn_submit;
+    private Button btn_submit,btn_signup;
     private String firstName,lastName,password,email,mobileNo;
     private Tracker tracker;
     private static final String TAG = "SignupActivity";
@@ -59,6 +65,9 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
     private CallbackManager callbackManager;
     private String signupType="form";
     private RelativeLayout relative_signup_header,relative_signup_form;
+    private SignInButton signInButton;
+    private GoogleSignInClient mGoogleSignInClient;
+    private static final int RC_SIGN_IN=100;
     @Override
     protected void onResume() {
         super.onResume();
@@ -76,8 +85,11 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
         init();
-        btn_submit.setOnClickListener(this);
 
+        signInButton.setSize(SignInButton.SIZE_STANDARD);
+        btn_submit.setOnClickListener(this);
+        signInButton.setOnClickListener(this);
+        btn_signup.setOnClickListener(this);
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
@@ -103,8 +115,13 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-        callbackManager.onActivityResult(requestCode,resultCode,data);
+        super.onActivityResult(requestCode, resultCode, data);
+        if(RC_SIGN_IN==100) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            handleSignInResult(task);
+        }else{
+            callbackManager.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
     private void init() {
@@ -118,8 +135,15 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         loginButton=findViewById(R.id.login_button);
         relative_signup_header=findViewById(R.id.relative_signup_header);
         relative_signup_form=findViewById(R.id.relative_signup_form);
+        signInButton = findViewById(R.id.sign_in_button);
+        btn_signup=findViewById(R.id.btn_signup);
         loginButton.setReadPermissions(Arrays.asList("email", "public_profile"));
         callbackManager=CallbackManager.Factory.create();
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+        signOut();
     }
 
 
@@ -157,10 +181,12 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
-
-        if(v.getId()==R.id.btn_submit){
+        if(v.getId()==R.id.btn_signup){
             relative_signup_header.setVisibility(View.GONE);
             relative_signup_form.setVisibility(View.VISIBLE);
+        }
+        if(v.getId()==R.id.btn_submit){
+
             firstName=edt_first_name.getText().toString();
             lastName=edt_last_name.getText().toString();
             password=edt_password.getText().toString();
@@ -242,6 +268,46 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                     e.printStackTrace();
                 }
             }
+        }if(v.getId()==R.id.sign_in_button){
+
+            signIn();
+
+        }
+    }
+    private void signOut(){
+        mGoogleSignInClient.signOut()
+                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+
+                    }
+                });
+    }
+    private void signIn() {
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
+    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
+        try {
+            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
+            if(account!=null){
+                relative_signup_header.setVisibility(View.GONE);
+                relative_signup_form.setVisibility(View.VISIBLE);
+
+            String name[]=account.getDisplayName().split("\\s+");
+            edt_first_name.setText(name[0]);
+            edt_last_name.setText(name[1]);
+            edt_email.setText(account.getEmail());
+            signupType="Google";
+            // Signed in successfully, show authenticated UI.
+            Log.e("Google sign-in",account.toJson());
+            }
+        } catch (ApiException e) {
+            // The ApiException status code indicates the detailed failure reason.
+            // Please refer to the GoogleSignInStatusCodes class reference for more information.
+            Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
+
         }
     }
 }

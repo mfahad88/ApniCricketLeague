@@ -1,5 +1,6 @@
 package league.fantasy.psl.com.apnicricketleague.Utils;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -10,6 +11,8 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
@@ -198,4 +201,17 @@ public class Helper {
         // Build and send an Event.
         t.send(new HitBuilders.EventBuilder().setCategory(category).setAction(action).setLabel(label).build());
     }
+
+
+    public static boolean permissionAlreadyGranted(Context context,String permission) {
+
+        int result = ContextCompat.checkSelfPermission(context, permission);
+        if (result == PackageManager.PERMISSION_GRANTED)
+            return true;
+
+        return false;
+    }
+
+
+
 }

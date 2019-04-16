@@ -2,11 +2,16 @@ package league.fantasy.psl.com.apnicricketleague.fragment;
 
 
 import android.Manifest;
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -66,12 +71,20 @@ public class AgentLocator extends Fragment implements OnMapReadyCallback,View.On
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        mView=inflater.inflate(R.layout.fragment_agent_locator, container, false);
+
         try {
+
+            mView=inflater.inflate(R.layout.fragment_agent_locator, container, false);
             init();
-            checkLocationPermission();
-            mapFragment.getMapAsync(this);
-            btnAgent.setOnClickListener(this);
+            //checkLocationPermission();
+            if(Helper.permissionAlreadyGranted(getApplicationContext(),Manifest.permission.ACCESS_FINE_LOCATION) && Helper.permissionAlreadyGranted(getApplicationContext(),Manifest.permission.ACCESS_COARSE_LOCATION)){
+                mapFragment.getMapAsync(this);
+                btnAgent.setOnClickListener(this);
+            }else{
+                requestPermission(getActivity());
+            }
+
+
         }catch (Exception e){
             e.printStackTrace();
             Toast.makeText(mView.getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -168,18 +181,46 @@ public class AgentLocator extends Fragment implements OnMapReadyCallback,View.On
         }
     }
 
+    @SuppressLint("MissingPermission")
     @Override
     public void onMapReady(GoogleMap googleMap) {
+
         this.googleMap=googleMap;
-        checkLocationPermission();
+
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         googleMap.setMyLocationEnabled(true);
-        moveCameraToLocation();
+        /*moveCameraToLocation();
         LatLng sydney = new LatLng(33.6844, 73.0479);
         googleMap.addMarker(new MarkerOptions().position(sydney)
                 .title("Marker in Sydney"));
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-        googleMap.animateCamera(CameraUpdateFactory.zoomTo(10));
+        googleMap.animateCamera(CameraUpdateFactory.zoomTo(10));*/
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (Helper.permissionAlreadyGranted(getApplicationContext(),Manifest.permission.ACCESS_COARSE_LOCATION)) {
+                //Location Permission already granted
+
+                googleMap.setMyLocationEnabled(true);
+                moveCameraToLocation();
+                //getCurrentLocationAndDrawMarkers();
+            } else {
+                //Request Location Permission
+                checkLocationPermission();
+            }
+        } else {
+
+            googleMap.setMyLocationEnabled(true);
+            moveCameraToLocation();
+            //getCurrentLocationAndDrawMarkers();
+        }
+    }
+
+    private void requestPermission(Activity activity) {
+
+        if (ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.ACCESS_FINE_LOCATION) && ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.ACCESS_COARSE_LOCATION)) {
+
+        }
+        ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSIONS_REQUEST_LOCATION);
     }
     @Override
     public void onRequestPermissionsResult(int requestCode,
@@ -192,14 +233,8 @@ public class AgentLocator extends Fragment implements OnMapReadyCallback,View.On
 
                     // permission was granted, yay! Do the
                     // location-related task you need to do.
-                    if (ActivityCompat.checkSelfPermission(getApplicationContext(),
-                            Manifest.permission.ACCESS_FINE_LOCATION)
-                            == PackageManager.PERMISSION_GRANTED) {
-                        gpsTracker=new GPSTracker(mView.getContext());
-                        moveCameraToLocation();
-                        // getCurrentLocationAndDrawMarkers();
-                    }
-
+                    gpsTracker=new GPSTracker(mView.getContext());
+                    moveCameraToLocation();
                 } else {
 
                     // permission denied, boo! Disable the
