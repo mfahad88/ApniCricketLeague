@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.Tracker;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -46,14 +47,20 @@ public class AgentLocator extends Fragment implements OnMapReadyCallback,View.On
     private Button btnAgent;
     SupportMapFragment mapFragment;
     GoogleMap googleMap;
-    GPSTracker tracker;
+    GPSTracker gpsTracker;
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
     View mView;
-
+    private Tracker tracker;
     public AgentLocator() {
         // Required empty public constructor
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        tracker=Helper.getGoogleAnalytics(getActivity().getApplication());
+        Helper.updateGoogleAnalytics(tracker,this.getClass().getSimpleName());
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -122,12 +129,12 @@ public class AgentLocator extends Fragment implements OnMapReadyCallback,View.On
         }
     }
     public void moveCameraToLocation(){
-        tracker=new GPSTracker(getActivity());
-        LatLng latLng=new LatLng(tracker.getLatitude(), tracker.getLongitude());
+        gpsTracker=new GPSTracker(getActivity());
+        LatLng latLng=new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 8));
 
         CameraPosition cameraPosition = new CameraPosition.Builder()
-                .target(new LatLng(tracker.getLatitude(), tracker.getLongitude()))      // Sets the center of the map to location user
+                .target(new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude()))      // Sets the center of the map to location user
                 .zoom(10)                   // Sets the zoom
                 .bearing(90)                // Sets the orientation of the camera to east
                 .tilt(40)                   // Sets the tilt of the camera to 30 degrees
@@ -142,14 +149,15 @@ public class AgentLocator extends Fragment implements OnMapReadyCallback,View.On
         int id=v.getId();
         switch (id){
             case R.id.btn_agent:
-                tracker=new GPSTracker(getActivity());
+                gpsTracker=new GPSTracker(getActivity());
                 try{
                     JSONObject object=new JSONObject();
-                    object.put("lat",String.valueOf(tracker.getLatitude()));
-                    object.put("lng",String.valueOf(tracker.getLongitude()));
+                    object.put("lat",String.valueOf(gpsTracker.getLatitude()));
+                    object.put("lng",String.valueOf(gpsTracker.getLongitude()));
                     object.put("dist","5");
                     object.put("userId",1001);
                     object.put("method_Name",this.getClass().getSimpleName()+".btn_agent.onClick");
+                    Helper.trackEvent(tracker,"Button","onClick",this.getClass().getSimpleName()+".btn_agent");
                     ApiClient.getInstance().getAgents(Helper.encrypt(object.toString()))
                             .enqueue(this);
                 }catch (Exception e){
@@ -187,7 +195,7 @@ public class AgentLocator extends Fragment implements OnMapReadyCallback,View.On
                     if (ActivityCompat.checkSelfPermission(getApplicationContext(),
                             Manifest.permission.ACCESS_FINE_LOCATION)
                             == PackageManager.PERMISSION_GRANTED) {
-                        tracker=new GPSTracker(mView.getContext());
+                        gpsTracker=new GPSTracker(mView.getContext());
                         moveCameraToLocation();
                         // getCurrentLocationAndDrawMarkers();
                     }

@@ -3,13 +3,20 @@ package league.fantasy.psl.com.apnicricketleague.Utils;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Application;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
+
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.nio.charset.Charset;
 import java.security.KeyFactory;
@@ -27,6 +34,8 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
+import league.fantasy.psl.com.apnicricketleague.AnalyticsApplication;
+import league.fantasy.psl.com.apnicricketleague.BuildConfig;
 import league.fantasy.psl.com.apnicricketleague.model.request.TestBeanRequest;
 
 public class Helper {
@@ -152,5 +161,41 @@ public class Helper {
 
         return rem.getBytes();
 
+    }
+
+    /*public static void updateGoogleAnalytics(Application app,String screenName,Bundle params){
+        AnalyticsApplication application = (AnalyticsApplication) app;
+        Tracker mTracker = application.getDefaultTracker();
+        mTracker.setScreenName(screenName);
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+        mTracker.setAppId(BuildConfig.APPLICATION_ID);
+        mTracker.setAppVersion(BuildConfig.VERSION_NAME);
+        if(!params.isEmpty()){
+            FirebaseAnalytics  mFirebaseAnalytics = FirebaseAnalytics.getInstance(app.getApplicationContext());
+            mFirebaseAnalytics.logEvent(screenName, params);
+        }
+
+    }*/
+
+    public static void updateGoogleAnalytics(Tracker mTracker,String screenName){
+
+        mTracker.setScreenName(screenName);
+        mTracker.setAppId(BuildConfig.APPLICATION_ID);
+        mTracker.setAppVersion(BuildConfig.VERSION_NAME);
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+
+
+    }
+
+    public  static Tracker getGoogleAnalytics(Application app){
+        AnalyticsApplication application = (AnalyticsApplication) app;
+        return application.getDefaultTracker();
+    }
+
+    public static void trackEvent(Tracker t,String category, String action, String label) {
+
+
+        // Build and send an Event.
+        t.send(new HitBuilders.EventBuilder().setCategory(category).setAction(action).setLabel(label).build());
     }
 }

@@ -2,11 +2,13 @@ package league.fantasy.psl.com.apnicricketleague.activity;
 
 import android.content.Intent;
 import android.os.Handler;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
 import com.facebook.FacebookSdk;
 import com.facebook.LoggingBehavior;
 import com.facebook.appevents.AppEventsLogger;
@@ -17,7 +19,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
-import league.fantasy.psl.com.apnicricketleague.AnalyticsApplication;
+
 import league.fantasy.psl.com.apnicricketleague.R;
 import league.fantasy.psl.com.apnicricketleague.Utils.DbHelper;
 import league.fantasy.psl.com.apnicricketleague.Utils.Helper;
@@ -31,29 +33,31 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SplashActivity extends AppCompatActivity implements Callback<ConfigBeanResponse> {
-
-    private Tracker mTracker;
+    Tracker tracker;
+    @Override
+    protected void onResume() {
+        super.onResume();
+        tracker=Helper.getGoogleAnalytics(getApplication());
+        Helper.updateGoogleAnalytics(tracker,this.getClass().getSimpleName());
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        Helper.printKeyHash(this);
+       Helper.printKeyHash(this);
         FacebookSdk.setApplicationId(getString(R.string.facebook_app_id));
         FacebookSdk.sdkInitialize(this.getApplicationContext());
         FacebookSdk.addLoggingBehavior(LoggingBehavior.APP_EVENTS);
         FacebookSdk.setAutoLogAppEventsEnabled(true);
 
-        AnalyticsApplication application = (AnalyticsApplication) getApplication();
-        mTracker = application.getDefaultTracker();
-        //Log.v("OkHttp",Helper.encrypt("1")[0]+"\n"+Helper.encrypt("1")[1]);
-        mTracker.enableAutoActivityTracking(true);
         JSONObject obj=new JSONObject();
        try{
            obj.put("param_type","GF");
            obj.put("userId","1001");
            obj.put("method_Name",this.getClass().getSimpleName()+".onCreate");
            System.out.println(obj.toString());
+
        }catch (Exception e){
            e.printStackTrace();
        }
@@ -76,7 +80,8 @@ public class SplashActivity extends AppCompatActivity implements Callback<Config
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent=new Intent(getApplicationContext(),SignupActivity.class);
+                Intent intent=new Intent(getApplicationContext(),LoginActivity.class);
+                Helper.trackEvent(tracker,"Intent",intent.getAction(),SignupActivity.class.getSimpleName());
                 startActivity(intent);
             }
         },500);

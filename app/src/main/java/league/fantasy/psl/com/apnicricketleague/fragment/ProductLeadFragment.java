@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.google.android.gms.analytics.Tracker;
+
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -36,8 +38,18 @@ public class ProductLeadFragment extends Fragment implements View.OnClickListene
     private String name,mobile,email,city;
     private DbHelper dbHelper;
     private ArrayAdapter<String> adapter;
+    private Tracker tracker;
     public ProductLeadFragment() {
         // Required empty public constructor
+    }
+
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        tracker=Helper.getGoogleAnalytics(getActivity().getApplication());
+        Helper.updateGoogleAnalytics(tracker,this.getClass().getSimpleName());
     }
 
 
@@ -93,6 +105,7 @@ public class ProductLeadFragment extends Fragment implements View.OnClickListene
                         object.put("channel_id","Mobile");
                         object.put("prod_sts","1");
                         object.put("method_Name",this.getClass().getName()+".btn_submit.onClick");
+                        Helper.trackEvent(tracker,"Button","onClick",this.getClass().getSimpleName()+".btn_submit");
 
                         ApiClient.getInstance().insertProductLead(Helper.encrypt(object.toString()))
                                 .enqueue(this);

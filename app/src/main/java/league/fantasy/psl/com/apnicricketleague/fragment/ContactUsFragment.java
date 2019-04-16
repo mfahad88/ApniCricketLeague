@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.android.gms.analytics.Tracker;
+
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -27,7 +29,14 @@ public class ContactUsFragment extends Fragment implements View.OnClickListener,
     private EditText edt_name,edt_contact,edt_email,edt_question;
     private Button btn_submit;
     private String name,mobile,email,question;
+    private Tracker tracker;
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        tracker=Helper.getGoogleAnalytics(getActivity().getApplication());
+        Helper.updateGoogleAnalytics(tracker,this.getClass().getSimpleName());
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -83,6 +92,7 @@ public class ContactUsFragment extends Fragment implements View.OnClickListener,
                     object.put("mobile",mobile);
                     object.put("comments",question);
                     object.put("method_Name",this.getClass().getSimpleName()+".btn_submit.onClick");
+                    Helper.trackEvent(tracker,"Button","onClick",this.getClass().getSimpleName()+".btn_submit");
                     ApiClient.getInstance().insertComplaint(Helper.encrypt(object.toString()))
                             .enqueue(this);
                 }catch (Exception e){

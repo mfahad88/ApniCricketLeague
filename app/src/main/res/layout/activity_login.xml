@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.LoginActivity">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+
+        <EditText
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edittext_border"
+            android:id="@+id/edt_mobile_no"
+            android:padding="5dp"
+            android:singleLine="true"
+            android:maxLength="11"
+            android:digits="0123456789"
+            android:layout_margin="5dp"
+            android:inputType="number"
+            android:hint="Mobile No."
+            android:layout_alignParentTop="true"/>
+
+        <EditText
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edittext_border"
+            android:id="@+id/edt_password"
+            android:layout_below="@id/edt_mobile_no"
+            android:padding="5dp"
+            android:layout_margin="5dp"
+            android:inputType="textPassword"
+            android:singleLine="true"
+            android:maxLength="10"
+            android:hint="Password" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_register"
+            android:text="Register"
+            android:padding="5dp"
+            android:background="@drawable/btn_boder"
+            android:layout_margin="5dp"
+            android:layout_alignLeft="@id/edt_mobile_no"
+            android:layout_below="@id/edt_password"
+            />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_login"
+            android:text="Login"
+            android:padding="5dp"
+            android:background="@drawable/btn_boder"
+            android:layout_margin="5dp"
+            android:layout_alignRight="@id/edt_mobile_no"
+            android:layout_below="@id/edt_password"
+            />
+    </RelativeLayout>
+</RelativeLayout>

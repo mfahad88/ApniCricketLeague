@@ -15,13 +15,23 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.android.gms.analytics.Tracker;
+
 import league.fantasy.psl.com.apnicricketleague.R;
+import league.fantasy.psl.com.apnicricketleague.Utils.Helper;
 import league.fantasy.psl.com.apnicricketleague.fragment.AgentLocator;
 import league.fantasy.psl.com.apnicricketleague.fragment.ContactUsFragment;
 import league.fantasy.psl.com.apnicricketleague.fragment.ProductLeadFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    Tracker tracker;
+    @Override
+    protected void onResume() {
+        super.onResume();
+        tracker=Helper.getGoogleAnalytics(getApplication());
+        Helper.updateGoogleAnalytics(tracker,this.getClass().getSimpleName());
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +77,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if(id==1){
+
             fragment=new AgentLocator();
         }if(id==2){
             fragment=new ProductLeadFragment();
@@ -74,8 +85,10 @@ public class MainActivity extends AppCompatActivity
             fragment=new ContactUsFragment();
         }
         if(fragment!=null) {
+
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.mainContent, fragment);
+            Helper.trackEvent(tracker,"Fragment Replace","FragmentTransaction",this.getClass().getSimpleName()+"."+fragment.toString());
             ft.commit();
         }
 
