@@ -45,7 +45,7 @@ public class SplashActivity extends AppCompatActivity implements Callback<Config
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-       Helper.printKeyHash(this);
+       //Helper.printKeyHash(this);
         FacebookSdk.setApplicationId(getString(R.string.facebook_app_id));
         FacebookSdk.sdkInitialize(this.getApplicationContext());
         FacebookSdk.addLoggingBehavior(LoggingBehavior.APP_EVENTS);
@@ -58,33 +58,23 @@ public class SplashActivity extends AppCompatActivity implements Callback<Config
            obj.put("method_Name",this.getClass().getSimpleName()+".onCreate");
            System.out.println(obj.toString());
 
+           ApiClient.getInstance().getConfig(Helper.encrypt(obj.toString()))
+                   .enqueue(this);
+           new Handler().postDelayed(new Runnable() {
+               @Override
+               public void run() {
+                   Intent intent=new Intent(getApplicationContext(),LoginActivity.class);
+                   Helper.trackEvent(tracker,"Intent",intent.getAction(),SignupActivity.class.getSimpleName());
+                   startActivity(intent);
+                   finish();
+               }
+           },500);
+
        }catch (Exception e){
            e.printStackTrace();
        }
 
-     /*   ApiClient.getInstance().testService(Helper.encrypt(obj.toString()))
-                .enqueue(new Callback<String>() {
-                    @Override
-                    public void onResponse(Call<String> call, Response<String> response) {
-                        Toast.makeText(SplashActivity.this, response.body(), Toast.LENGTH_SHORT).show();
-                    }
 
-                    @Override
-                    public void onFailure(Call<String> call, Throwable t) {
-                        Toast.makeText(SplashActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-*/
-        ApiClient.getInstance().getConfig(Helper.encrypt(obj.toString()))
-                .enqueue(this);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent intent=new Intent(getApplicationContext(),LoginActivity.class);
-                Helper.trackEvent(tracker,"Intent",intent.getAction(),SignupActivity.class.getSimpleName());
-                startActivity(intent);
-            }
-        },500);
     }
 
     @Override

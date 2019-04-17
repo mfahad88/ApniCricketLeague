@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="350dp"
+    android:layout_gravity="center_horizontal"
+    android:layout_height="200dp"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="15dp"
+        android:background="#cef3ff">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Points"
+            android:layout_marginTop="3dp"
+            android:id="@+id/text_points"
+            android:layout_alignParentTop="true"
+            android:textSize="15sp"
+            android:layout_centerHorizontal="true"
+            android:textAlignment="center"/>
+
+
+
+        <TextView
+            android:layout_marginTop="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text_points"
+            android:id="@+id/txt_win"
+            android:text="Win"
+            android:textSize="27sp"
+            android:textAlignment="center"
+            android:layout_centerHorizontal="true"/>
+
+        <ProgressBar
+            android:padding="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txt_win"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:id="@+id/progress_bar_score"
+            android:progress="0"
+            style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/progress_bar_score"
+            android:text="Remaining"
+            android:id="@+id/remaining"
+            android:layout_marginLeft="15dp"
+            android:layout_marginBottom="15dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/remaining"
+            android:layout_below="@id/progress_bar_score"
+            android:text="10/100"
+            android:layout_marginLeft="7dp"
+            android:id="@+id/txt_remaining"
+            android:layout_marginBottom="15dp"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_claim"
+            android:text="Claim"
+            android:enabled="false"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/progress_bar_score"
+            android:textColor="@color/white"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="17dp"
+            android:layout_marginRight="20dp"
+            android:background="#dadada"
+            android:layout_alignParentRight="true" />
+    </RelativeLayout>
+
+
+
+
+
+</RelativeLayout>

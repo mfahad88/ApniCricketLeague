@@ -205,7 +205,7 @@ public class AgentLocator extends Fragment implements OnMapReadyCallback,View.On
                 //getCurrentLocationAndDrawMarkers();
             } else {
                 //Request Location Permission
-                checkLocationPermission();
+                requestPermission(getActivity());
             }
         } else {
 
@@ -221,6 +221,10 @@ public class AgentLocator extends Fragment implements OnMapReadyCallback,View.On
 
         }
         ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSIONS_REQUEST_LOCATION);
+        if(Helper.permissionAlreadyGranted(getApplicationContext(),Manifest.permission.ACCESS_FINE_LOCATION)){
+            mapFragment.getMapAsync(this);
+            btnAgent.setOnClickListener(this);
+        }
     }
     @Override
     public void onRequestPermissionsResult(int requestCode,

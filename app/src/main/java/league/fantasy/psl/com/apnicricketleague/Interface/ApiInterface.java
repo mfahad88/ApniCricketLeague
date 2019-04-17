@@ -8,6 +8,7 @@ import league.fantasy.psl.com.apnicricketleague.model.request.TestBeanRequest;
 import league.fantasy.psl.com.apnicricketleague.model.response.Agent.AgentBeanResponse;
 import league.fantasy.psl.com.apnicricketleague.model.response.Config.ConfigBeanResponse;
 import league.fantasy.psl.com.apnicricketleague.model.response.Insert.InsertResponse;
+import league.fantasy.psl.com.apnicricketleague.model.response.Login.LoginResponse;
 import league.fantasy.psl.com.apnicricketleague.model.response.ProductLead.ProductLeadResponse;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -34,6 +35,8 @@ public interface ApiInterface {
     @POST("insertUser")
     Call<InsertResponse> insertUser(@Body TestBeanRequest beanRequest);
 
+    @POST("login")
+    Call<LoginResponse> login(@Body TestBeanRequest beanRequest);
 /*    @POST("text")
     Call<String> testService(@Body TestBeanRequest beanRequest);*/
 }

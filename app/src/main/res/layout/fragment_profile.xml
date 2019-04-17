@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="60dp">
+
+
+    <LinearLayout
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical"
+        android:layout_marginTop="20dp">
+
+        <EditText
+            android:id="@+id/txt_firstname"
+            android:layout_centerHorizontal="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:digits="@string/name_digits"
+            android:hint="First Name"
+            android:inputType="textPersonName"
+            android:maxLength="30"
+            android:maxLines="1"
+            android:textSize="13sp"/>
+
+        <EditText
+            android:id="@+id/txt_lastname"
+            android:layout_centerHorizontal="true"
+            android:layout_width="match_parent"
+            android:layout_below="@id/txt_firstname"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:digits="@string/name_digits"
+            android:hint="Last Name"
+            android:inputType="textPersonName"
+            android:maxLength="30"
+            android:maxLines="1"
+            android:textSize="13sp"/>
+
+        <EditText
+            android:id="@+id/txt_mobilenumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:ems="11"
+            android:hint="Mobile Number"
+            android:inputType="none"
+            android:focusable="false"
+            android:clickable="false"
+            android:maxLength="11"
+            android:maxLines="1"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/txt_lastname"
+            android:textSize="13sp" />
+
+        <EditText
+            android:id="@+id/txt_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
+            android:maxLength="30"
+            android:maxLines="1"
+            android:layout_below="@id/txt_mobilenumber"
+            android:layout_centerHorizontal="true"
+            android:textSize="13sp" />
+
+        <Button
+            android:id="@+id/iv_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"
+            android:text="Save"
+            android:layout_marginTop="10dp"
+            android:layout_below="@id/txt_email"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+</RelativeLayout>

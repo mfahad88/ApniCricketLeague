@@ -1,26 +1,26 @@
 package league.fantasy.psl.com.apnicricketleague.Utils;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Application;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
-import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
+import android.content.res.AssetManager;
 import android.support.v4.content.ContextCompat;
-import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
-import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.gson.Gson;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.security.KeyFactory;
 import java.security.MessageDigest;
@@ -46,6 +46,8 @@ public class Helper {
     public static final String publicKeyString="MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCVMxpYZO46njcjm/iizphuiSJlL5P2kj16WJRT\n" +
             "OmD+rJ/DG6IsOqhEZWHOu2SUpGp+OFbNzYdRGkuDl7oWoe95v5QOMA7+8qBgwCr1/OZWp+aHkxxM\n" +
             "/to87hLEmFzWgiC8zzyHvWDzjvNJEGfPa9J0RDYjxEES7kuyhRY4KLxDowIDAQAB";
+    public static final String SHARED_PREF = "PSL_FANTSY";
+    public static final String MY_USER = "MyUser";
     public static void showAlertNetural(Context ctx, String title, String message){
         AlertDialog.Builder builder=new AlertDialog.Builder(ctx);
         builder.setTitle(title).setMessage(message);
@@ -212,6 +214,38 @@ public class Helper {
         return false;
     }
 
+    public static String readFile(Context context, String filename) {
+        String buffer_row = "";
+        try {
+            AssetManager am = context.getAssets();
+            java.io.InputStream fs = am.open(filename);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(fs));
+            String datarow = "";
 
+            while ((datarow = reader.readLine()) != null) {
+                buffer_row += datarow + "\n";
 
+            }
+
+            //getAlert(buffer_row);
+            reader.close();
+
+        } catch (Exception e) {
+
+        }
+        return buffer_row;
+    }
+
+    public static void putUserSession(SharedPreferences sharedpreferences,String key,Object object){
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+        String json=new Gson().toJson(object);
+        editor.putString(key,json);
+        editor.commit();
+    }
+
+    public static Object getUserSession(SharedPreferences sharedpreferences, String key){
+        Gson gson=new Gson();
+       String json=sharedpreferences.getString(key,"");
+       return  gson.fromJson(json,Object.class);
+    }
 }
