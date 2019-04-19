@@ -1,0 +1,77 @@
+package league.fantasy.psl.com.apnicricketleague.fragment;
+
+
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ListView;
+
+import org.json.JSONObject;
+
+import league.fantasy.psl.com.apnicricketleague.R;
+import league.fantasy.psl.com.apnicricketleague.Utils.Helper;
+import league.fantasy.psl.com.apnicricketleague.adapter.ContestAdapter;
+import league.fantasy.psl.com.apnicricketleague.client.ApiClient;
+
+import league.fantasy.psl.com.apnicricketleague.model.response.Contest.ContestResponse;
+import league.fantasy.psl.com.apnicricketleague.model.response.Contest.Datum;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+/**
+ * A simple {@link Fragment} subclass.
+ */
+public class ContestFragment extends Fragment {
+
+
+    public ContestFragment() {
+        // Required empty public constructor
+    }
+
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        final View mView=inflater.inflate(R.layout.fragment_contest, container, false);;
+        final ListView list_contest=mView.findViewById(R.id.list_contest);
+        try{
+            String match_id=getArguments().getString("match_id");
+
+            JSONObject object=new JSONObject();
+            object.put("match_id",match_id);
+            object.put("method_Name",this.getClass().getSimpleName()+".onCreateView");
+            Log.e("Fragment",object.toString());
+            ApiClient.getInstance().getAllContest(Helper.encrypt(object.toString()))
+                    .enqueue(new Callback<ContestResponse>() {
+                        @Override
+                        public void onResponse(Call<ContestResponse> call, Response<ContestResponse> response) {
+                            if(response.isSuccessful()){
+                                if(response.body().getResponseCode().equals("1001")){
+                                    for(Datum datum:response.body().getData()){
+                                        if(datum.getIsVisible().equals("1")){
+                                            ContestAdapter adapter=new ContestAdapter(mView.getContext(),R.layout.contest_list,datum);
+                                            list_contest.setAdapter(adapter);
+                                        }
+                                    }
+
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ContestResponse> call, Throwable t) {
+
+                        }
+                    });
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return mView;
+    }
+
+}

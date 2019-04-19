@@ -26,19 +26,26 @@ import org.json.JSONObject;
 
 import league.fantasy.psl.com.apnicricketleague.R;
 import league.fantasy.psl.com.apnicricketleague.Utils.Helper;
+import league.fantasy.psl.com.apnicricketleague.client.ApiClient;
 import league.fantasy.psl.com.apnicricketleague.fragment.AboutFragment;
 import league.fantasy.psl.com.apnicricketleague.fragment.AgentLocator;
 import league.fantasy.psl.com.apnicricketleague.fragment.ContactUsFragment;
+import league.fantasy.psl.com.apnicricketleague.fragment.DashboardFragment;
 import league.fantasy.psl.com.apnicricketleague.fragment.PrizesFragment;
 import league.fantasy.psl.com.apnicricketleague.fragment.ProductLeadFragment;
+import league.fantasy.psl.com.apnicricketleague.fragment.ProfileFragment;
 import league.fantasy.psl.com.apnicricketleague.fragment.RulesFragment;
-import league.fantasy.psl.com.apnicricketleague.model.response.Login.MyUser;
+import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
+
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     Tracker tracker;
     SharedPreferences preferences;
+    JSONObject jsonObject;
+    Fragment fragment = null;
     @Override
     protected void onResume() {
         super.onResume();
@@ -55,9 +62,11 @@ public class MainActivity extends AppCompatActivity
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
             preferences=getSharedPreferences(Helper.SHARED_PREF,Context.MODE_PRIVATE);
-            JSONObject object=new JSONObject(Helper.getUserSession(preferences,Helper.MY_USER).toString());
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.add(R.id.content_frame, new DashboardFragment());
+            ft.commit();
 
-            Log.e("Helper===>",object.toString());
+            jsonObject = new JSONObject(Helper.getUserSession(preferences,Helper.MY_USER).toString());
 
             DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
             ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -82,6 +91,7 @@ public class MainActivity extends AppCompatActivity
             menu.add(0,12,0,"Gold Finance");
             menu.add(0,13,0,"Agent Locator");
             menu.add(0,14,0,"Logout");
+
         }catch (Exception e){
 
             e.printStackTrace();
@@ -94,7 +104,7 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            finish();
+            logout();
             //super.onBackPressed();
         }
     }
@@ -105,8 +115,15 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
 
-        Fragment fragment = null;
+
+
         int id = item.getItemId();
+        if(id==1){
+            fragment=new DashboardFragment();
+        }
+        if(id==2){
+            fragment=new ProfileFragment();
+        }
         if(id==3){
             fragment=new RulesFragment();
         }
@@ -126,10 +143,15 @@ public class MainActivity extends AppCompatActivity
 
             fragment=new AgentLocator();
         }
+        if(id==14){
+
+            logout();
+        }
         if(fragment!=null) {
 
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.content_frame, fragment);
+            ft.addToBackStack(null);
             Helper.trackEvent(tracker,"Fragment Replace","FragmentTransaction",this.getClass().getSimpleName()+"."+fragment.toString());
             ft.commit();
         }
@@ -137,5 +159,41 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void logout() {
+
+        try{
+            JSONObject object=new JSONObject();
+                        object.put("user_id",jsonObject.getInt("user_id"));
+                object.put("method_Name",this.getClass().getSimpleName()+".logout");
+                ApiClient.getInstance().logout(Helper.encrypt(object.toString()))
+                        .enqueue(new Callback<String>() {
+                            @Override
+                            public void onResponse(Call<String> call, Response<String> response) {
+
+                                    if(response.isSuccessful()){
+
+                                    }else{
+                                        Helper.showAlertNetural(getApplicationContext(),"Error",response.body());
+                                    }
+                            }
+
+                            @Override
+                            public void onFailure(Call<String> call, Throwable t) {
+                                t.fillInStackTrace();
+//                                Helper.showAlertNetural(getApplicationContext(),"Error",t.getMessage());
+                            }
+                        });
+
+
+        }catch (Exception e){
+            e.printStackTrace();
+            Helper.showAlertNetural(getApplicationContext(),"Error",e.getMessage());
+        }
+
+        if (Helper.removeUserSession(preferences, Helper.MY_USER)) {
+            finish();
+        }
     }
 }

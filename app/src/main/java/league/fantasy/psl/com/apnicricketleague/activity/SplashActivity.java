@@ -64,7 +64,7 @@ public class SplashActivity extends AppCompatActivity implements Callback<Config
                @Override
                public void run() {
                    Intent intent=new Intent(getApplicationContext(),LoginActivity.class);
-                   Helper.trackEvent(tracker,"Intent",intent.getAction(),SignupActivity.class.getSimpleName());
+                   Helper.trackEvent(tracker,"Intent",intent.getAction(),MainActivity.class.getSimpleName());
                    startActivity(intent);
                    finish();
                }

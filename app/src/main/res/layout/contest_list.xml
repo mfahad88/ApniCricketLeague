@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.v7.widget.CardView
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        app:cardElevation="5dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            android:padding="3dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Prize Pool"
+                android:textSize="10sp"
+                android:id="@+id/txt_prize_pool"/>
+            <TextView
+                android:layout_alignParentLeft="true"
+                android:layout_below="@id/txt_prize_pool"
+                android:layout_width="80dp"
+                android:layout_height="23dp"
+                android:id="@+id/txt_price"
+                android:text="Price"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_below="@id/txt_price"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:progress="10"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Entry"
+                android:id="@+id/txt_entry"
+                android:textSize="10sp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"/>
+
+            <Button
+                android:layout_width="70dp"
+                android:layout_height="28dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="10dp"
+                android:background="#00ed18"
+                android:id="@+id/btn_pay"
+                android:textSize="12sp"
+                android:text="Price"
+                android:textColor="@android:color/white"
+                android:layout_below="@id/txt_entry" />
+
+            <TextView
+                android:layout_width="70dp"
+                android:layout_height="20dp"
+                android:layout_toLeftOf="@id/btn_pay"
+                android:text="discount"
+                android:id="@+id/txt_discount"
+                android:textAlignment="viewEnd"
+                android:layout_alignBaseline="@id/btn_pay"
+                android:visibility="gone"
+                android:layout_marginRight="10dp"/>
+
+
+            <!--<TextView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:background="@drawable/drawable_square"
+                android:layout_below="@id/progressBar"
+                android:textSize="10sp"
+                android:text="A"
+                android:layout_alignParentRight="true"
+                android:padding="2dp"
+                android:gravity="center"/>-->
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/linear_footer"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_below="@id/progressBar"
+            android:layout_gravity="bottom"
+            android:background="#75c4c4c4"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/txt_winner"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:text="Winner"
+                    android:textAlignment="center"
+                    android:textColor="#00b3dc"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linear_contest_property"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end|center_vertical"
+                android:orientation="horizontal"
+                android:paddingRight="10dp">
+
+                <TextView
+                    android:id="@+id/txt_contest_type_one"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_below="@id/progressBar"
+                    android:layout_alignParentRight="true"
+                    android:layout_margin="3dp"
+                    android:background="@drawable/drawable_square"
+                    android:gravity="center"
+                    android:text="A"
+                    android:textSize="10sp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/txt_multi"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_below="@id/progressBar"
+                    android:layout_alignParentRight="true"
+                    android:layout_margin="3dp"
+                    android:background="@drawable/drawable_square"
+                    android:gravity="center"
+                    android:text="S"
+                    android:textSize="10sp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/txt_confirm_winning"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_below="@id/progressBar"
+                    android:layout_alignParentRight="true"
+                    android:layout_margin="3dp"
+                    android:background="@drawable/drawable_square"
+                    android:gravity="center"
+                    android:text="C"
+                    android:textSize="10sp"
+                    android:visibility="gone" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+</RelativeLayout>

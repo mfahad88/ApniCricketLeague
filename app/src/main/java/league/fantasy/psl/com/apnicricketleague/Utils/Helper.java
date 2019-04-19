@@ -248,4 +248,8 @@ public class Helper {
        String json=sharedpreferences.getString(key,"");
        return  gson.fromJson(json,Object.class);
     }
+
+    public static boolean removeUserSession(SharedPreferences sharedPreferences,String key){
+        return sharedPreferences.edit().remove(key).commit();
+    }
 }

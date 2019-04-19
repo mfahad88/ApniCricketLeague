@@ -4,82 +4,85 @@
     android:layout_height="match_parent"
     android:layout_marginBottom="60dp">
 
-
-    <LinearLayout
-        android:layout_width="250dp"
+    <ScrollView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
         android:orientation="vertical"
-        android:layout_marginTop="20dp">
+        android:padding="10dp">
+
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:scaleType="fitCenter"
+            android:background="@mipmap/ic_launcher"
+            android:id="@+id/img_profile"
+            android:layout_gravity="center"/>
 
         <EditText
-            android:id="@+id/txt_firstname"
-            android:layout_centerHorizontal="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_weight="1"
-            android:digits="@string/name_digits"
+            android:id="@+id/edt_first_name"
+            android:background="@drawable/edittext_border"
             android:hint="First Name"
-            android:inputType="textPersonName"
-            android:maxLength="30"
-            android:maxLines="1"
-            android:textSize="13sp"/>
+            android:singleLine="true"
+            android:maxLength="15"
+            android:layout_marginTop="15dp"
+            android:inputType="text|textPersonName"
+            android:digits="@string/name_digits" />
 
         <EditText
-            android:id="@+id/txt_lastname"
-            android:layout_centerHorizontal="true"
             android:layout_width="match_parent"
-            android:layout_below="@id/txt_firstname"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_weight="1"
-            android:digits="@string/name_digits"
+            android:id="@+id/edt_last_name"
+            android:background="@drawable/edittext_border"
             android:hint="Last Name"
-            android:inputType="textPersonName"
-            android:maxLength="30"
-            android:maxLines="1"
-            android:textSize="13sp"/>
+            android:singleLine="true"
+            android:maxLength="15"
+            android:layout_marginTop="15dp"
+            android:inputType="text|textPersonName"
+            android:digits="@string/name_digits" />
 
         <EditText
-            android:id="@+id/txt_mobilenumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:ems="11"
-            android:hint="Mobile Number"
-            android:inputType="none"
-            android:focusable="false"
-            android:clickable="false"
+            android:id="@+id/edt_mobile_no"
+            android:background="@drawable/edittext_border"
+            android:hint="Mobile No."
+            android:singleLine="true"
+            android:layout_marginTop="15dp"
+            android:inputType="number"
             android:maxLength="11"
-            android:maxLines="1"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/txt_lastname"
-            android:textSize="13sp" />
+            android:digits="@string/number_digits" />
 
         <EditText
-            android:id="@+id/txt_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:id="@+id/edt_email"
+            android:background="@drawable/edittext_border"
             android:hint="Email"
+            android:singleLine="true"
+            android:layout_marginTop="15dp"
             android:inputType="textEmailAddress"
-            android:maxLength="30"
-            android:maxLines="1"
-            android:layout_below="@id/txt_mobilenumber"
-            android:layout_centerHorizontal="true"
-            android:textSize="13sp" />
+            android:maxLength="50"
+            android:digits="@string/number_digits" />
 
         <Button
-            android:id="@+id/iv_save"
+            android:id="@+id/btn_save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
             android:text="Save"
             android:layout_marginTop="10dp"
-            android:layout_below="@id/txt_email"
             android:textStyle="bold" />
 
     </LinearLayout>
+    </ScrollView>
 </RelativeLayout>
