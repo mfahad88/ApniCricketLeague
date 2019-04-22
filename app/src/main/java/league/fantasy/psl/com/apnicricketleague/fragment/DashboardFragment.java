@@ -18,6 +18,7 @@ import league.fantasy.psl.com.apnicricketleague.R;
 import league.fantasy.psl.com.apnicricketleague.Utils.Helper;
 import league.fantasy.psl.com.apnicricketleague.adapter.MatchesAdapter;
 import league.fantasy.psl.com.apnicricketleague.client.ApiClient;
+import league.fantasy.psl.com.apnicricketleague.model.response.Matches.Datum;
 import league.fantasy.psl.com.apnicricketleague.model.response.Matches.MatchesResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -55,11 +56,16 @@ public class DashboardFragment extends Fragment {
                                     list_matches.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                         @Override
                                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                            //Toast.makeText(getActivity(), String.valueOf(parent.getAdapter().getItemId(position)), Toast.LENGTH_SHORT).show();
-                                            Fragment fragment=new ContestFragment();
+
+                                           Fragment fragment=new CreateTeamFragment();
+                                           Bundle bundle=new Bundle();
+                                           bundle.putInt("TeamId1",((Datum)list_matches.getSelectedItem()).getTeamId1());
+                                           bundle.putInt("TeamId2",((Datum)list_matches.getSelectedItem()).getTeamId2());
+                                           fragment.setArguments(bundle);
+                                           /* Fragment fragment=new ContestFragment();
                                             Bundle bundle=new Bundle();
                                             bundle.putString("match_id", String.valueOf(parent.getAdapter().getItemId(position)));
-                                            fragment.setArguments(bundle);
+                                            fragment.setArguments(bundle);*/
                                             FragmentTransaction ft = getFragmentManager().beginTransaction();
                                             ft.replace(R.id.content_frame, fragment);
                                             ft.commit();

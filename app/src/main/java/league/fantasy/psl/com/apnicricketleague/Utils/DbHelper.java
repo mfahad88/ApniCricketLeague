@@ -10,7 +10,8 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
-import league.fantasy.psl.com.apnicricketleague.model.response.Config.Datum;
+import league.fantasy.psl.com.apnicricketleague.model.response.Player.Datum;
+
 
 public class DbHelper extends SQLiteOpenHelper {
 
@@ -25,6 +26,26 @@ public class DbHelper extends SQLiteOpenHelper {
     public static final String CD = "cd";
     public static final String MD = "md";
 
+    public static final String TBL_PLAYERS = "tbl_players";
+    public static final String	team_id="team_id";
+    public static final String	team_name="team_name";
+    public static final String	player_id="player_id";
+    public static final String	name="name";
+    public static final String	game="game";
+    public static final String	pic_url="pic_url";
+    public static final String	plays_for="plays_for";
+    public static final String	skill="skill";
+    public static final String	style="style";
+    public static final String	runs="runs";
+    public static final String	avg="avg";
+    public static final String	hundreds="hundreds";
+    public static final String	fifties="fifties";
+    public static final String	sr="sr";
+    public static final String	wkt="wkt";
+    public static final String	price="price";
+    public static final String	cd="cd";
+    public static final String	md="md";
+
 
     public static final String CREATE_CONFIG = "CREATE TABLE " +TBL_CONFIG + "(" + PARAM_CODE + " INTEGER PRIMARY KEY " +
             "," + PARAM_TYPE + " TEXT " +
@@ -33,6 +54,26 @@ public class DbHelper extends SQLiteOpenHelper {
             "," + USERID + " TEXT " +
             "," + CD + " TEXT " +
             "," + MD + " TEXT)";
+
+    public static final String CREATE_PLAYERS = "CREATE TABLE "+TBL_PLAYERS + "("+ team_id + "INTEGER PRIMARY KEY" +
+            ","+team_name+" TEXT" +
+            ","+player_id+" TEXT" +
+            ","+name+" TEXT" +
+            ","+game+" TEXT" +
+            ","+pic_url+" TEXT" +
+            ","+plays_for+" TEXT" +
+            ","+skill+" TEXT" +
+            ","+style+" TEXT" +
+            ","+runs+" TEXT" +
+            ","+avg+" TEXT" +
+            ","+hundreds+" TEXT" +
+            ","+fifties+" TEXT" +
+            ","+sr+"TEXT" +
+            ","+wkt+" TEXT" +
+            ","+price+" TEXT" +
+            ","+cd+" TEXT" +
+            ","+md+" TEXT)";
+
     Context cntxt;
 
     public DbHelper(Context context) {
@@ -49,10 +90,11 @@ public class DbHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TBL_CONFIG);
+        db.execSQL("DROP TABLE IF EXISTS "+ TBL_PLAYERS);
         onCreate(db);
     }
 
-    public long saveConfig(List<Datum> list) {
+    public long saveConfig(List<league.fantasy.psl.com.apnicricketleague.model.response.Config.Datum> list) {
         // Gets the data repository in write mode
         long processId = 0;
         SQLiteDatabase db=null;
@@ -60,7 +102,7 @@ public class DbHelper extends SQLiteOpenHelper {
         try{
             db = this.getWritableDatabase();
             ContentValues values = new ContentValues();
-            for(Datum datum:list){
+            for(league.fantasy.psl.com.apnicricketleague.model.response.Config.Datum datum:list){
                 values.put(PARAM_CODE,Integer.parseInt(datum.getParamCode()));
                 values.put(PARAM_TYPE,datum.getParamType());
                 values.put(DESCRIPTION,datum.getDesc());
@@ -80,8 +122,100 @@ public class DbHelper extends SQLiteOpenHelper {
                 if(db.isOpen())
                     db.close();
         }
-        
+
         return processId;
+    }
+
+    public long savePlayers(List<league.fantasy.psl.com.apnicricketleague.model.response.Player.Datum> list) {
+        // Gets the data repository in write mode
+        long processId = 0;
+        SQLiteDatabase db=null;
+
+        try{
+            db = this.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            for(league.fantasy.psl.com.apnicricketleague.model.response.Player.Datum datum:list){
+                values.put(team_id,datum.getTeamId());
+                values.put(team_name,datum.getTeamName());
+                values.put(player_id,datum.getPlayerId());
+                values.put(name,datum.getName());
+                values.put(game,datum.getGame());
+                values.put(pic_url,datum.getPicUrl().toString());
+                values.put(plays_for,datum.getPlaysFor().toString());
+                values.put(skill,datum.getSkill());
+                values.put(style,datum.getStyle());
+                values.put(runs,datum.getRuns());
+                values.put(avg,datum.getAvg());
+                values.put(hundreds,datum.getHundreds());
+                values.put(fifties,datum.getFifties());
+                values.put(sr,datum.getSr().toString());
+                values.put(wkt,datum.getWkt().toString());
+                values.put(price,datum.getPrice());
+                values.put(cd,datum.getCd().toString());
+                values.put(md,datum.getMd().toString());
+
+                processId = db.insert(TBL_PLAYERS, null, values);
+            }
+
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }	finally
+        {
+            if(db!=null)
+                if(db.isOpen())
+                    db.close();
+        }
+
+        return processId;
+    }
+
+    public List<Datum> getPlayers(String team_id){
+        List<Datum> list=new ArrayList<>();
+        Cursor c = null ;
+        try {
+
+            String query = "SELECT * FROM " + TBL_PLAYERS ;
+
+            SQLiteDatabase db = this.getReadableDatabase();
+            c = db.rawQuery(query, null);
+
+            if (c.moveToFirst()) {
+                do {
+                    Datum datum=new Datum();
+                    datum.setTeamId(c.getInt(c.getColumnIndex(team_id)));
+                    datum.setTeamName(c.getString(c.getColumnIndex(team_name)));
+                    datum.setPlayerId(c.getInt(c.getColumnIndex(player_id)));
+                    datum.setName(c.getString(c.getColumnIndex(name)));
+                    datum.setGame(c.getString(c.getColumnIndex(game)));
+                    datum.setPicUrl(c.getString(c.getColumnIndex(pic_url)));
+                    datum.setPlaysFor(c.getString(c.getColumnIndex(plays_for)));
+                    datum.setSkill(c.getString(c.getColumnIndex(skill)));
+                    datum.setStyle(c.getString(c.getColumnIndex(style)));
+                    datum.setRuns(c.getString(c.getColumnIndex(runs)));
+                    datum.setAvg(c.getString(c.getColumnIndex(avg)));
+                    datum.setHundreds(c.getString(c.getColumnIndex(hundreds)));
+                    datum.setFifties(c.getString(c.getColumnIndex(fifties)));
+                    datum.setSr(c.getString(c.getColumnIndex(sr)));
+                    datum.setWkt(c.getString(c.getColumnIndex(wkt)));
+                    datum.setPrice(c.getString(c.getColumnIndex(price)));
+                    datum.setCd(c.getString(c.getColumnIndex(cd)));
+                    datum.setMd(c.getString(c.getColumnIndex(md)));
+
+                    list.add(datum);
+                    Log.e("Value--->",list.toString());
+                } while (c.moveToNext());
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally{
+            if(c!=null)
+                c.close();
+
+        }
+        return list;
     }
 
     public List<String> getConfig(){

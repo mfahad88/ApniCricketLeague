@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment.CreateTeamFragment">
+
+
+    <RelativeLayout
+        android:id="@+id/relative_header"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="#a1404040">
+
+        <ImageView
+            android:id="@+id/img_team_one"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="100dp"
+            android:layout_marginTop="20dp"
+            android:background="@mipmap/ic_launcher_round" />
+
+        <TextView
+            android:id="@+id/txt_team_one"
+            android:layout_width="25dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_toRightOf="@id/img_team_one"
+            android:padding="3dp"
+            android:text="T0" />
+
+        <TextView
+            android:layout_width="17dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txt_team_one"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@id/img_team_one"
+            android:text="0"
+            android:textAlignment="center" />
+
+
+        <ImageView
+            android:id="@+id/img_team_two"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="100dp"
+            android:background="@mipmap/ic_launcher_round" />
+
+
+        <TextView
+            android:id="@+id/txt_team_two"
+            android:layout_width="25dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_toLeftOf="@id/img_team_two"
+            android:padding="3dp"
+            android:text="TT" />
+
+        <TextView
+            android:layout_width="17dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txt_team_two"
+            android:layout_marginRight="5dp"
+            android:layout_toLeftOf="@id/img_team_two"
+            android:text="0"
+            android:textAlignment="center" />
+
+        <TextView
+            android:id="@+id/txt_players_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="7dp"
+            android:layout_marginTop="20dp"
+            android:text="Players" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txt_players_count"
+            android:layout_marginLeft="10dp"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:id="@+id/txt_player_counter"
+                android:layout_width="17dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txt_players_count"
+                android:text="0"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/txt_slash"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txt_players_count"
+                android:layout_alignRight="@id/txt_player_counter"
+                android:text="/" />
+
+            <TextView
+                android:layout_width="25dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txt_players_count"
+                android:layout_alignRight="@id/txt_slash"
+                android:text="11" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="5dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:text="Credits Left" />
+
+            <TextView
+                android:id="@+id/txt_credits"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="100.0" />
+        </LinearLayout>
+
+        <RadioGroup
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/img_team_two"
+            android:layout_marginTop="20dp"
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal"
+            android:id="@+id/radio_group_players"
+            android:weightSum="11">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/drawable_player_square"
+                android:layout_weight="1"/>
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/drawable_player_square"
+                android:layout_weight="1"/>
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/drawable_player_square"
+                android:layout_weight="1"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/drawable_player_square"
+                android:layout_weight="1"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/drawable_player_square"
+                android:layout_weight="1"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/drawable_player_square"
+                android:layout_weight="1"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/drawable_player_square"
+                android:layout_weight="1"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/drawable_player_square"
+                android:layout_weight="1"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/drawable_player_square"
+                android:layout_weight="1"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/drawable_player_square"
+                android:layout_weight="1"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/drawable_player_square"
+                android:layout_weight="1"/>
+        </RadioGroup>
+
+
+    </RelativeLayout>
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="6dp"
+        android:layout_below="@id/relative_header"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/tab_layout"/>
+
+  <!--  <ListView
+        android:layout_width="match_parent"
+        android:layout_height="310dp"
+        android:layout_below="@id/relative_header"></ListView>-->
+</RelativeLayout>

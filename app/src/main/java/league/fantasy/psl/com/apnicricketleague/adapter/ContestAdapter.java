@@ -72,7 +72,7 @@ public class ContestAdapter extends ArrayAdapter<Datum> {
                 txt_multi.setVisibility(View.VISIBLE);
 
             }else{
-                txt_multi.setText("M");
+                txt_multi.setText("S");
                 txt_multi.setVisibility(View.VISIBLE);
             }
 

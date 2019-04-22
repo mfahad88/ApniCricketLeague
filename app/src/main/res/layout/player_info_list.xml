@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content" android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    >
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/txt_Name"
+        android:text="Name"
+        android:textAlignment="center" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="27dp"
+        android:textAlignment="textStart"
+        android:id="@+id/linear_player"
+        android:layout_below="@id/txt_Name">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="PK"
+            android:id="@+id/txt_country" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:text="-"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="WKT"
+            android:id="@+id/txt_type"/>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/linear_player"
+        android:layout_below="@id/txt_Name"
+        android:text="259.5"
+        android:id="@+id/txt_points"
+        android:layout_marginTop="-7dp"
+        android:gravity="center_horizontal"
+        />
+
+    <TextView
+        android:layout_width="30dp"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/txt_points"
+        android:text="10.0"
+        android:layout_marginTop="-7dp"
+        android:id="@+id/txt_credits"
+        android:layout_below="@id/txt_Name"/>
+
+</RelativeLayout>
