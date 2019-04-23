@@ -216,4 +216,28 @@ public class Datum {
         this.methodName = methodName;
     }
 
+    @Override
+    public String toString() {
+        return "Datum{" +
+                "teamId=" + teamId +
+                ", teamName='" + teamName + '\'' +
+                ", playerId=" + playerId +
+                ", name='" + name + '\'' +
+                ", game='" + game + '\'' +
+                ", picUrl='" + picUrl + '\'' +
+                ", playsFor='" + playsFor + '\'' +
+                ", skill='" + skill + '\'' +
+                ", style='" + style + '\'' +
+                ", runs='" + runs + '\'' +
+                ", avg='" + avg + '\'' +
+                ", hundreds='" + hundreds + '\'' +
+                ", fifties='" + fifties + '\'' +
+                ", sr='" + sr + '\'' +
+                ", wkt='" + wkt + '\'' +
+                ", price='" + price + '\'' +
+                ", cd='" + cd + '\'' +
+                ", md='" + md + '\'' +
+                ", methodName='" + methodName + '\'' +
+                '}';
+    }
 }

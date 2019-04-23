@@ -3,6 +3,7 @@ package league.fantasy.psl.com.apnicricketleague.Utils;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -14,6 +15,8 @@ import league.fantasy.psl.com.apnicricketleague.model.response.Player.Datum;
 
 
 public class DbHelper extends SQLiteOpenHelper {
+
+    private static DbHelper DB_HELPER=null;
 
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "acl";
@@ -55,26 +58,27 @@ public class DbHelper extends SQLiteOpenHelper {
             "," + CD + " TEXT " +
             "," + MD + " TEXT)";
 
-    public static final String CREATE_PLAYERS = "CREATE TABLE "+TBL_PLAYERS + "("+ team_id + "INTEGER PRIMARY KEY" +
-            ","+team_name+" TEXT" +
-            ","+player_id+" TEXT" +
-            ","+name+" TEXT" +
-            ","+game+" TEXT" +
-            ","+pic_url+" TEXT" +
-            ","+plays_for+" TEXT" +
-            ","+skill+" TEXT" +
-            ","+style+" TEXT" +
-            ","+runs+" TEXT" +
-            ","+avg+" TEXT" +
-            ","+hundreds+" TEXT" +
-            ","+fifties+" TEXT" +
-            ","+sr+"TEXT" +
-            ","+wkt+" TEXT" +
-            ","+price+" TEXT" +
-            ","+cd+" TEXT" +
-            ","+md+" TEXT)";
+    public static final String CREATE_PLAYERS = "CREATE TABLE "+TBL_PLAYERS + "("+ team_id + " INTEGER " +
+            ", "+team_name+" TEXT" +
+            ", "+player_id+" TEXT" +
+            ", "+name+" TEXT" +
+            ", "+game+" TEXT" +
+            ", "+pic_url+" TEXT" +
+            ", "+plays_for+" TEXT" +
+            ", "+skill+" TEXT" +
+            ", "+style+" TEXT" +
+            ", "+runs+" TEXT" +
+            ", "+avg+" TEXT" +
+            ", "+hundreds+" TEXT" +
+            ", "+fifties+" TEXT" +
+            ", "+sr+" TEXT" +
+            ", "+wkt+" TEXT" +
+            ", "+price+" TEXT" +
+            ", "+cd+" TEXT" +
+            ", "+md+" TEXT)";
 
     Context cntxt;
+
 
     public DbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -83,7 +87,10 @@ public class DbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        Log.e("SQLiteDatabase",CREATE_CONFIG);
+        Log.e("SQLiteDatabase",CREATE_PLAYERS);
         db.execSQL(CREATE_CONFIG);
+        db.execSQL(CREATE_PLAYERS);
 
     }
 
@@ -111,6 +118,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 values.put(CD,datum.getCd());
                 values.put(MD,datum.getMd());
                 processId = db.insert(TBL_CONFIG, null, values);
+                Log.e("SQLiteDatabase",datum.toString());
             }
 
 
@@ -135,30 +143,31 @@ public class DbHelper extends SQLiteOpenHelper {
             db = this.getWritableDatabase();
             ContentValues values = new ContentValues();
             for(league.fantasy.psl.com.apnicricketleague.model.response.Player.Datum datum:list){
-                values.put(team_id,datum.getTeamId());
+                values.put(team_id,datum.getTeamId().intValue());
                 values.put(team_name,datum.getTeamName());
-                values.put(player_id,datum.getPlayerId());
+                values.put(player_id,String.valueOf(datum.getPlayerId()));
                 values.put(name,datum.getName());
                 values.put(game,datum.getGame());
-                values.put(pic_url,datum.getPicUrl().toString());
-                values.put(plays_for,datum.getPlaysFor().toString());
+                values.put(pic_url,datum.getPicUrl());
+                values.put(plays_for,datum.getPlaysFor());
                 values.put(skill,datum.getSkill());
                 values.put(style,datum.getStyle());
                 values.put(runs,datum.getRuns());
                 values.put(avg,datum.getAvg());
                 values.put(hundreds,datum.getHundreds());
                 values.put(fifties,datum.getFifties());
-                values.put(sr,datum.getSr().toString());
-                values.put(wkt,datum.getWkt().toString());
+                values.put(sr,datum.getSr());
+                values.put(wkt,datum.getWkt());
                 values.put(price,datum.getPrice());
-                values.put(cd,datum.getCd().toString());
-                values.put(md,datum.getMd().toString());
+                values.put(cd,datum.getCd());
+                values.put(md,datum.getMd());
 
                 processId = db.insert(TBL_PLAYERS, null, values);
+                Log.e("SQLiteDatabase",datum.toString());
             }
 
 
-        }catch (Exception e){
+        }catch (SQLException e){
             e.printStackTrace();
         }	finally
         {
@@ -218,6 +227,55 @@ public class DbHelper extends SQLiteOpenHelper {
         return list;
     }
 
+    public List<Datum> getPlayersById(String teamId1,String teamId2,String player_type){
+        List<Datum> list=new ArrayList<>();
+        Cursor c = null ;
+        try {
+
+            String query = "SELECT * FROM " + TBL_PLAYERS +" WHERE "+team_id+" IN ('"+teamId1+"' , '"+teamId2+"') AND "+skill+" = '"+player_type+"'";
+
+            SQLiteDatabase db = this.getReadableDatabase();
+            Log.e("SQLiteDatabase",query);
+            c = db.rawQuery(query, null);
+
+            if (c.moveToFirst()) {
+                do {
+                    Datum datum=new Datum();
+                    datum.setTeamId(c.getInt(c.getColumnIndex(team_id)));
+                    datum.setTeamName(c.getString(c.getColumnIndex(team_name)));
+                    datum.setPlayerId(c.getInt(c.getColumnIndex(player_id)));
+                    datum.setName(c.getString(c.getColumnIndex(name)));
+                    datum.setGame(c.getString(c.getColumnIndex(game)));
+                    datum.setPicUrl(c.getString(c.getColumnIndex(pic_url)));
+                    datum.setPlaysFor(c.getString(c.getColumnIndex(plays_for)));
+                    datum.setSkill(c.getString(c.getColumnIndex(skill)));
+                    datum.setStyle(c.getString(c.getColumnIndex(style)));
+                    datum.setRuns(c.getString(c.getColumnIndex(runs)));
+                    datum.setAvg(c.getString(c.getColumnIndex(avg)));
+                    datum.setHundreds(c.getString(c.getColumnIndex(hundreds)));
+                    datum.setFifties(c.getString(c.getColumnIndex(fifties)));
+                    datum.setSr(c.getString(c.getColumnIndex(sr)));
+                    datum.setWkt(c.getString(c.getColumnIndex(wkt)));
+                    datum.setPrice(c.getString(c.getColumnIndex(price)));
+                    datum.setCd(c.getString(c.getColumnIndex(cd)));
+                    datum.setMd(c.getString(c.getColumnIndex(md)));
+
+                    list.add(datum);
+
+                } while (c.moveToNext());
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally{
+            if(c!=null)
+                c.close();
+
+        }
+        return list;
+    }
+
     public List<String> getConfig(){
         List<String> list = new ArrayList<>();
         Cursor c = null ;
@@ -245,5 +303,31 @@ public class DbHelper extends SQLiteOpenHelper {
 
         }
         return list;
+    }
+
+    public void deleteConfig(){
+        try {
+            String query="delete from "+ TBL_CONFIG;
+            SQLiteDatabase db = this.getWritableDatabase();
+            db.execSQL(query);
+            Log.e("SQLiteDatabase",query);
+            db.close();
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public void deletePlayer(){
+        try {
+            String query="delete from "+ TBL_PLAYERS;
+            SQLiteDatabase db = this.getWritableDatabase();
+            db.execSQL(query);
+            Log.e("SQLiteDatabase",query);
+            db.close();
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 }

@@ -83,4 +83,16 @@ public void setMd(String md) {
 this.md = md;
 }
 
+    @Override
+    public String toString() {
+        return "Datum{" +
+                "paramCode='" + paramCode + '\'' +
+                ", paramType='" + paramType + '\'' +
+                ", desc='" + desc + '\'' +
+                ", configVal='" + configVal + '\'' +
+                ", userId=" + userId +
+                ", cd='" + cd + '\'' +
+                ", md='" + md + '\'' +
+                '}';
+    }
 }

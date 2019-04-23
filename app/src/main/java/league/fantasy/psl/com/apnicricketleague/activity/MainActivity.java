@@ -25,6 +25,7 @@ import com.google.android.gms.analytics.Tracker;
 import org.json.JSONObject;
 
 import league.fantasy.psl.com.apnicricketleague.R;
+import league.fantasy.psl.com.apnicricketleague.Utils.DbHelper;
 import league.fantasy.psl.com.apnicricketleague.Utils.Helper;
 import league.fantasy.psl.com.apnicricketleague.client.ApiClient;
 import league.fantasy.psl.com.apnicricketleague.fragment.AboutFragment;
@@ -46,6 +47,7 @@ public class MainActivity extends AppCompatActivity
     SharedPreferences preferences;
     JSONObject jsonObject;
     Fragment fragment = null;
+    DbHelper dbHelper;
     @Override
     protected void onResume() {
         super.onResume();
@@ -59,6 +61,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         try {
+            dbHelper=new DbHelper(this);
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
             preferences=getSharedPreferences(Helper.SHARED_PREF,Context.MODE_PRIVATE);
@@ -195,5 +198,12 @@ public class MainActivity extends AppCompatActivity
         if (Helper.removeUserSession(preferences, Helper.MY_USER)) {
             finish();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        dbHelper.deleteConfig();
+        dbHelper.deletePlayer();
+        super.onDestroy();
     }
 }

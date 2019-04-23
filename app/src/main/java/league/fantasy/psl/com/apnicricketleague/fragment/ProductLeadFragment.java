@@ -70,7 +70,7 @@ public class ProductLeadFragment extends Fragment implements View.OnClickListene
         edt_city=mView.findViewById(R.id.edt_city);
         spinner_comment=mView.findViewById(R.id.spinner_comment);
         btn_submit=mView.findViewById(R.id.btn_submit);
-        dbHelper=new DbHelper(mView.getContext());
+        dbHelper=new DbHelper(getActivity());
         adapter=new ArrayAdapter<String>(mView.getContext(),android.R.layout.simple_spinner_item,dbHelper.getConfig());
         spinner_comment.setAdapter(adapter);
 

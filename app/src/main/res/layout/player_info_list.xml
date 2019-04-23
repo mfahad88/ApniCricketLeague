@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content" android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
+    android:padding="5dp"
     >
 
     <TextView
@@ -47,6 +48,7 @@
         android:id="@+id/txt_points"
         android:layout_marginTop="-7dp"
         android:gravity="center_horizontal"
+
         />
 
     <TextView
@@ -58,4 +60,12 @@
         android:id="@+id/txt_credits"
         android:layout_below="@id/txt_Name"/>
 
+    <Button
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:text="+"
+        android:layout_toRightOf="@id/txt_credits"
+        android:textSize="8sp"
+        android:layout_marginTop="7dp"
+        android:id="@+id/btn_add"/>
 </RelativeLayout>

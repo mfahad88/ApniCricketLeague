@@ -11,6 +11,7 @@ import league.fantasy.psl.com.apnicricketleague.model.response.Contest.ContestRe
 import league.fantasy.psl.com.apnicricketleague.model.response.Insert.InsertResponse;
 import league.fantasy.psl.com.apnicricketleague.model.response.Login.LoginResponse;
 import league.fantasy.psl.com.apnicricketleague.model.response.Matches.MatchesResponse;
+import league.fantasy.psl.com.apnicricketleague.model.response.Player.PlayerResponse;
 import league.fantasy.psl.com.apnicricketleague.model.response.ProductLead.ProductLeadResponse;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -51,6 +52,9 @@ public interface ApiInterface {
 
     @POST("getAllContest")
     Call<ContestResponse> getAllContest(@Body TestBeanRequest beanRequest);
+
+    @POST("getPlayersMatches")
+    Call<PlayerResponse> getPlayersMatches();
 /*    @POST("text")
     Call<String> testService(@Body TestBeanRequest beanRequest);*/
 }

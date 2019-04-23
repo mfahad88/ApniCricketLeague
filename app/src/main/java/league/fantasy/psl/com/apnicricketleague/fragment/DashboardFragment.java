@@ -48,7 +48,7 @@ public class DashboardFragment extends Fragment {
             ApiClient.getInstance().matches(Helper.encrypt(object.toString()))
                     .enqueue(new Callback<MatchesResponse>() {
                         @Override
-                        public void onResponse(Call<MatchesResponse> call, Response<MatchesResponse> response) {
+                        public void onResponse(Call<MatchesResponse> call, final Response<MatchesResponse> response) {
                             if(response.isSuccessful()){
                                 if(response.body().getResponseCode().equals("1001")){
                                     MatchesAdapter adapter=new MatchesAdapter(mView.getContext(),R.layout.match_list,response.body().getData());
@@ -57,12 +57,13 @@ public class DashboardFragment extends Fragment {
                                         @Override
                                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+
                                            Fragment fragment=new CreateTeamFragment();
                                            Bundle bundle=new Bundle();
-                                           bundle.putInt("TeamId1",((Datum)list_matches.getSelectedItem()).getTeamId1());
-                                           bundle.putInt("TeamId2",((Datum)list_matches.getSelectedItem()).getTeamId2());
+                                           bundle.putInt("TeamId1",response.body().getData().get(position).getTeamId2());
+                                           bundle.putInt("TeamId2",response.body().getData().get(position).getTeamId1());
                                            fragment.setArguments(bundle);
-                                           /* Fragment fragment=new ContestFragment();
+                                            /*Fragment fragment=new ContestFragment();
                                             Bundle bundle=new Bundle();
                                             bundle.putString("match_id", String.valueOf(parent.getAdapter().getItemId(position)));
                                             fragment.setArguments(bundle);*/
