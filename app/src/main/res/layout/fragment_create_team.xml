@@ -10,7 +10,7 @@
     <RelativeLayout
         android:id="@+id/relative_header"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="150dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:background="#a1404040">
@@ -206,7 +206,51 @@
 
 
     </RelativeLayout>
-    <android.support.design.widget.TabLayout
+    <HorizontalScrollView
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/horizontal_players"
+        android:layout_below="@id/relative_header">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/team_linear"
+            android:orientation="horizontal"
+            />
+
+    </HorizontalScrollView>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="240dp"
+        android:id="@+id/scrollView"
+        android:layout_below="@id/horizontal_players">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="240dp"
+        android:layout_below="@id/horizontal_players"
+        android:id="@+id/linear_player_list"
+        android:layout_gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/holo_red_dark"
+            android:id="@+id/tableLayout">
+        </TableLayout>
+    </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_done"
+        android:text="Done"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/scrollView"/>
+   <!-- <android.support.design.widget.TabLayout
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -218,9 +262,18 @@
     <android.support.v4.view.ViewPager
         android:id="@+id/pager"
         android:layout_width="match_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="270dp"
         android:layout_below="@id/tab_layout"/>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_done"
+        android:text="done"
+        android:layout_below="@id/pager"
+        android:layout_centerHorizontal="true"
+        android:enabled="false"
+        />-->
   <!--  <ListView
         android:layout_width="match_parent"
         android:layout_height="310dp"

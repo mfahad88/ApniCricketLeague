@@ -227,12 +227,12 @@ public class DbHelper extends SQLiteOpenHelper {
         return list;
     }
 
-    public List<Datum> getPlayersById(String teamId1,String teamId2,String player_type){
+    public List<Datum> getPlayersById(String teamId1,String teamId2){
         List<Datum> list=new ArrayList<>();
         Cursor c = null ;
         try {
 
-            String query = "SELECT * FROM " + TBL_PLAYERS +" WHERE "+team_id+" IN ('"+teamId1+"' , '"+teamId2+"') AND "+skill+" = '"+player_type+"'";
+            String query = "SELECT * FROM " + TBL_PLAYERS +" WHERE "+team_id+" IN ('"+teamId1+"' , '"+teamId2+"')";
 
             SQLiteDatabase db = this.getReadableDatabase();
             Log.e("SQLiteDatabase",query);

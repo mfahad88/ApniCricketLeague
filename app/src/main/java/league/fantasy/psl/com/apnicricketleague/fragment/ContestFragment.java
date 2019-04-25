@@ -26,7 +26,8 @@ import retrofit2.Response;
  * A simple {@link Fragment} subclass.
  */
 public class ContestFragment extends Fragment {
-
+    String match_id = null;
+    int TeamId1,TeamId2;
 
     public ContestFragment() {
         // Required empty public constructor
@@ -37,10 +38,16 @@ public class ContestFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
         final View mView=inflater.inflate(R.layout.fragment_contest, container, false);;
         final ListView list_contest=mView.findViewById(R.id.list_contest);
         try{
-            String match_id=getArguments().getString("match_id");
+            if(getArguments()!=null) {
+
+                match_id = getArguments().getString("match_id");
+                TeamId1=getArguments().getInt("TeamId1");
+                TeamId2=getArguments().getInt("TeamId2");
+            }
 
             JSONObject object=new JSONObject();
             object.put("match_id",match_id);
@@ -54,7 +61,7 @@ public class ContestFragment extends Fragment {
                                 if(response.body().getResponseCode().equals("1001")){
                                     for(Datum datum:response.body().getData()){
                                         if(datum.getIsVisible().equals("1")){
-                                            ContestAdapter adapter=new ContestAdapter(mView.getContext(),R.layout.contest_list,datum);
+                                            ContestAdapter adapter=new ContestAdapter(mView.getContext(),R.layout.contest_list,datum,TeamId1,TeamId2,getFragmentManager());
                                             list_contest.setAdapter(adapter);
                                         }
                                     }

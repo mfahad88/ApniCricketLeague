@@ -4,14 +4,19 @@ package league.fantasy.psl.com.apnicricketleague.fragment;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import org.json.JSONException;
 
 import java.util.List;
 
@@ -20,6 +25,7 @@ import league.fantasy.psl.com.apnicricketleague.Interface.PlayerInterface;
 import league.fantasy.psl.com.apnicricketleague.R;
 import league.fantasy.psl.com.apnicricketleague.Utils.DbHelper;
 import league.fantasy.psl.com.apnicricketleague.adapter.PlayerAdapter;
+import league.fantasy.psl.com.apnicricketleague.model.game.PlayerBean;
 import league.fantasy.psl.com.apnicricketleague.model.response.Player.Datum;
 
 /**
@@ -35,11 +41,11 @@ public class PlayerFragment extends Fragment {
     PlayerAdapter adapter;
     PlayerInterface playerInterface;
     FragmenttoFragment fragmenttoFragment;
+    int counter=0;
     public PlayerFragment(FragmenttoFragment fragmenttoFragment) {
         // Required empty public constructor
         this.fragmenttoFragment=fragmenttoFragment;
     }
-
 
 
     @Override
@@ -57,21 +63,34 @@ public class PlayerFragment extends Fragment {
         playerInterface=new PlayerInterface() {
             @Override
             public void totalPlayer(String operator) {
-                //Toast.makeText(mView.getContext(), operator, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(mView.getContext(), operator, Toast.LENGTH_SHORT).show();
                 fragmenttoFragment.passvalue(operator);
+                if(operator.equals("plus")){
+                    counter++;
+                }else{
+                    counter--;
+                }
+            }
+
+            @Override
+            public void totalPlayersList(List<PlayerBean> list) {
+                for(PlayerBean bean:list) {
+                    Log.e("PlayerFragment",bean.toString());
+                }
             }
         };
-        List<Datum> list=dbHelper.getPlayersById(String.valueOf(teamId1),String.valueOf(teamId2),String.valueOf(player_type));
+        final List<Datum> list=dbHelper.getPlayersById(String.valueOf(teamId1),String.valueOf(teamId2));
         if(list.size()>0) {
-            adapter = new PlayerAdapter(mView.getContext(), R.layout.player_info_list, list,playerInterface);
-            listView.setAdapter(adapter);
-        }
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getActivity(), adapter.getItem(position).get(position).toString(), Toast.LENGTH_SHORT).show();
+            try {
+                adapter = new PlayerAdapter(mView.getContext(), R.layout.player_info_list, list,playerInterface);
+                listView.setAdapter(adapter);
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        });
+
+        }
+
+
 
         return mView;
     }

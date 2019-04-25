@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content" android:layout_height="wrap_content"
-    android:layout_gravity="center_horizontal"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
     android:padding="5dp"
+    android:id="@+id/relativeLayout"
     >
 
     <TextView
@@ -60,12 +60,30 @@
         android:id="@+id/txt_credits"
         android:layout_below="@id/txt_Name"/>
 
-    <Button
+    <TextView
         android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:text="+"
+        android:layout_height="wrap_content"
         android:layout_toRightOf="@id/txt_credits"
-        android:textSize="8sp"
-        android:layout_marginTop="7dp"
-        android:id="@+id/btn_add"/>
+        android:text="C"
+        android:layout_marginTop="-7dp"
+        android:layout_marginLeft="2dp"
+        android:id="@+id/txt_captain"
+        android:textAlignment="center"
+        android:visibility="gone"
+        android:layout_below="@id/txt_Name"/>
+
+
+    <TextView
+        android:layout_width="30dp"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/txt_captain"
+        android:text="V"
+        android:layout_marginTop="-7dp"
+        android:layout_marginLeft="2dp"
+        android:id="@+id/txt_vcaptain"
+        android:textAlignment="center"
+        android:visibility="gone"
+        android:layout_below="@id/txt_Name"/>
+
+
 </RelativeLayout>

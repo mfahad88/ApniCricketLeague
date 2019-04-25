@@ -58,15 +58,17 @@ public class DashboardFragment extends Fragment {
                                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
 
-                                           Fragment fragment=new CreateTeamFragment();
+                                           /*Fragment fragment=new CreateTeamFragment();
                                            Bundle bundle=new Bundle();
                                            bundle.putInt("TeamId1",response.body().getData().get(position).getTeamId2());
                                            bundle.putInt("TeamId2",response.body().getData().get(position).getTeamId1());
-                                           fragment.setArguments(bundle);
-                                            /*Fragment fragment=new ContestFragment();
+                                           fragment.setArguments(bundle);*/
+                                            Fragment fragment=new ContestFragment();
                                             Bundle bundle=new Bundle();
                                             bundle.putString("match_id", String.valueOf(parent.getAdapter().getItemId(position)));
-                                            fragment.setArguments(bundle);*/
+                                            bundle.putInt("TeamId1",response.body().getData().get(position).getTeamId1());
+                                            bundle.putInt("TeamId2",response.body().getData().get(position).getTeamId2());
+                                            fragment.setArguments(bundle);
                                             FragmentTransaction ft = getFragmentManager().beginTransaction();
                                             ft.replace(R.id.content_frame, fragment);
                                             ft.commit();

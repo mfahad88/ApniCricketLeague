@@ -18,6 +18,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import league.fantasy.psl.com.apnicricketleague.R;
+import league.fantasy.psl.com.apnicricketleague.Utils.DbHelper;
 import league.fantasy.psl.com.apnicricketleague.Utils.Helper;
 import league.fantasy.psl.com.apnicricketleague.client.ApiClient;
 import league.fantasy.psl.com.apnicricketleague.model.response.Login.LoginResponse;
@@ -29,6 +30,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private Button btn_register,btn_login;
     private EditText edt_mobile_no,edt_password;
     private SharedPreferences sharedpreferences;
+    private DbHelper dbHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +46,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         btn_register=findViewById(R.id.btn_register);
         btn_login=findViewById(R.id.btn_login);
         sharedpreferences = getSharedPreferences(Helper.SHARED_PREF, Context.MODE_PRIVATE);
+        dbHelper=new DbHelper(this);
     }
 
     @Override
@@ -96,5 +99,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
 
         //finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        dbHelper.deleteConfig();
+        dbHelper.deletePlayer();
+        super.onBackPressed();
     }
 }
