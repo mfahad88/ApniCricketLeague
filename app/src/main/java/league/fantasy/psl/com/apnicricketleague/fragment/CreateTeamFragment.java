@@ -3,6 +3,7 @@ package league.fantasy.psl.com.apnicricketleague.fragment;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -12,12 +13,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupMenu;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TableLayout;
@@ -25,6 +28,11 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -33,9 +41,15 @@ import league.fantasy.psl.com.apnicricketleague.Interface.FragmenttoFragment;
 import league.fantasy.psl.com.apnicricketleague.Interface.PlayerInterface;
 import league.fantasy.psl.com.apnicricketleague.R;
 import league.fantasy.psl.com.apnicricketleague.Utils.DbHelper;
+import league.fantasy.psl.com.apnicricketleague.Utils.Helper;
 import league.fantasy.psl.com.apnicricketleague.adapter.PagerAdapter;
+import league.fantasy.psl.com.apnicricketleague.client.ApiClient;
 import league.fantasy.psl.com.apnicricketleague.model.game.PlayerBean;
+import league.fantasy.psl.com.apnicricketleague.model.response.JoinContest.JoinContenstResponse;
 import league.fantasy.psl.com.apnicricketleague.model.response.Player.Datum;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -56,6 +70,9 @@ public class CreateTeamFragment extends Fragment {
     DbHelper dbHelper;
     TableLayout tableLayout;
     List<PlayerBean> beanList;
+    int ContestId,userId;
+
+    private SharedPreferences preferences;
     public CreateTeamFragment() {
         // Required empty public constructor
     }
@@ -72,7 +89,15 @@ public class CreateTeamFragment extends Fragment {
         if(getArguments()!=null){
             teamId1= getArguments().getInt("TeamId1");
             teamId2=getArguments().getInt("TeamId2");
+            ContestId=getArguments().getInt("ContestId");
         }
+        try {
+            JSONObject jsonObject=new JSONObject(Helper.getUserSession(preferences,"MyUser").toString());
+            userId= jsonObject.getInt("user_id");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         List<Datum> list=dbHelper.getPlayersById(String.valueOf(teamId1),String.valueOf(teamId2));
         final List<String> ListElementsArrayList = new ArrayList<String>();
 
@@ -92,9 +117,10 @@ public class CreateTeamFragment extends Fragment {
                 public void onClick(View v) {
                     counter++;
                     if(counter<12) {
+                        final PlayerBean bean=new PlayerBean();
                         final TableRow tableRow = new TableRow(mView.getContext());
-                        TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
-                        lp.setMargins(15, 15, 15, 15);
+                        TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT);
+                        lp.setMargins(25, 0, 25, 0);
                         TextView tvCounter=new TextView(mView.getContext());
                         TextView tvName = new TextView(mView.getContext());
                         TextView tvSkills = new TextView(mView.getContext());
@@ -110,24 +136,84 @@ public class CreateTeamFragment extends Fragment {
                         tableRow.addView(tvName);
                         tableRow.addView(tvSkills);
                         tableRow.addView(tvPrice);
-                        beanList.add(new PlayerBean(datum.getName(),datum.getPrice(),datum.getSkill()));
+                        bean.setId(datum.getPlayerId());
+                        bean.setName(datum.getName());
+
+                        if(counter==1){
+                            bean.setIsCaptain(1);
+                            bean.setIsWCaption(1);
+                        }else{
+                            bean.setIsCaptain(0);
+                            bean.setIsWCaption(0);
+                        }
+                        bean.setPrice(datum.getPrice());
+                        bean.setSkills(datum.getSkill());
                         tableLayout.addView(tableRow, new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
                         tableRow.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+                                --counter;
                                 tableLayout.removeView(tableRow);
-                                counter--;
+                                beanList.remove(bean);
+
                             }
                         });
+
+                       // if(counter==11) {
+
+                        //}
+                        beanList.add(bean);
                     }
-                    if(counter>11){
+                    if(counter==11){
                         btn_done.setEnabled(true);
                         btn_done.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+                                 JSONArray jsonArray = new JSONArray();
                                 for(PlayerBean bean:beanList) {
-                                    Log.e("beanList", bean.toString());
+
+                                    JSONArray array = new JSONArray();
+                                    array.put(bean.getId());
+                                    array.put(bean.getIsCaptain());
+                                    array.put(bean.getIsWCaption());
+                                    jsonArray.put(array);
                                 }
+                                Log.e("beanList",jsonArray.toString());
+
+                                JSONObject object=new JSONObject();
+                                try {
+                                    object.put("user_id",userId);
+                                    object.put("contest_id",ContestId);
+                                    object.put("name","Android");
+                                    object.put("method_Name",this.getClass().getSimpleName()+".btn_done.onClick");
+                                    object.put("playersInfo",jsonArray);
+                                    object.put("coins",0);
+                                    object.put("rem_budget",0);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                ApiClient.getInstance().JoinContest(Helper.encrypt(object.toString()))
+                                        .enqueue(new Callback<JoinContenstResponse>() {
+                                            @Override
+                                            public void onResponse(Call<JoinContenstResponse> call, Response<JoinContenstResponse> response) {
+                                                if(response.isSuccessful()){
+                                                    Helper.showAlertNetural(mView.getContext(),"Success",response.body().getMessage());
+                                                }else{
+                                                    try {
+                                                        Helper.showAlertNetural(mView.getContext(),"Error",response.errorBody().string());
+                                                    } catch (IOException e) {
+                                                        e.printStackTrace();
+                                                    }
+                                                }
+
+                                            }
+
+                                            @Override
+                                            public void onFailure(Call<JoinContenstResponse> call, Throwable t) {
+                                                t.fillInStackTrace();
+                                                Helper.showAlertNetural(mView.getContext(),"Error",t.getMessage());
+                                            }
+                                        });
                             }
                         });
                     }
@@ -139,49 +225,6 @@ public class CreateTeamFragment extends Fragment {
 
 
 
-        /*fragmenttoFragment=new FragmenttoFragment() {
-            @Override
-            public void passvalue(String str) {
-
-                if(str.equals("plus")){
-                    if(counter<11) {
-                        counter++;
-                        txt_player_counter.setText(String.valueOf(counter));
-                    }
-
-
-                }if(str.equals("minus")){
-                    if(counter>0) {
-                        counter--;
-                        txt_player_counter.setText(String.valueOf(counter));
-                    }
-                }
-            }
-        };
-        tabLayout.addTab(tabLayout.newTab().setText("WK"));
-        tabLayout.addTab(tabLayout.newTab().setText("BAT"));
-        tabLayout.addTab(tabLayout.newTab().setText("AR"));
-        tabLayout.addTab(tabLayout.newTab().setText("BOWL"));
-        tabLayout.setTabTextColors(ColorStateList.valueOf(Color.parseColor("#000000")));
-        PagerAdapter pagerAdapter=new PagerAdapter(getFragmentManager(),tabLayout.getTabCount(),teamId1,teamId2,fragmenttoFragment);
-        pager.setAdapter(pagerAdapter);
-        pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                pager.setCurrentItem(tab.getPosition());
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });*/
         return mView;
     }
 
@@ -194,8 +237,9 @@ public class CreateTeamFragment extends Fragment {
         radio_group_players=mView.findViewById(R.id.radio_group_players);
         team_linear=mView.findViewById(R.id.team_linear);
         dbHelper=new DbHelper(getActivity());
+        preferences=mView.getContext().getSharedPreferences(Helper.SHARED_PREF,Context.MODE_PRIVATE);
 //        list_players=mView.findViewById(R.id.lv_players);
-        linear_player_list=mView.findViewById(R.id.linear_player_list);
+//        linear_player_list=mView.findViewById(R.id.linear_player_list);
         tableLayout=mView.findViewById(R.id.tableLayout);
         btn_done=mView.findViewById(R.id.btn_done);
         /*pager=mView.findViewById(R.id.pager);

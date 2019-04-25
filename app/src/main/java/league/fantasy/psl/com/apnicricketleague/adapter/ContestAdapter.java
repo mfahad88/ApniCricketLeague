@@ -32,7 +32,8 @@ public class ContestAdapter extends ArrayAdapter<Datum> {
     private Datum datum;
     private int teamId1,teamId2;
     private FragmentManager fragmentManager;
-    public ContestAdapter(Context context, int resource, Datum datum, int teamId1, int teamId2, FragmentManager fragmentManager) {
+    private int ContestId;
+    public ContestAdapter(Context context, int resource, Datum datum, int teamId1, int teamId2,int ContestId, FragmentManager fragmentManager) {
         super(context, resource, Collections.singletonList(datum));
         this.context=context;
         this.resource=resource;
@@ -40,6 +41,7 @@ public class ContestAdapter extends ArrayAdapter<Datum> {
         this.teamId1=teamId1;
         this.teamId2=teamId2;
         this.fragmentManager=fragmentManager;
+        this.ContestId=ContestId;
     }
 
     @Override
@@ -101,6 +103,7 @@ public class ContestAdapter extends ArrayAdapter<Datum> {
                     Bundle bundle=new Bundle();
                     bundle.putInt("TeamId1",teamId1);
                     bundle.putInt("TeamId2",teamId2);
+                    bundle.putInt("ContestId",ContestId);
                     fragment.setArguments(bundle);
                     FragmentTransaction ft = fragmentManager.beginTransaction();
                     ft.replace(R.id.content_frame, fragment);

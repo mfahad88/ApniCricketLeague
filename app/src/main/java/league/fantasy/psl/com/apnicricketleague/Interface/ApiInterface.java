@@ -9,6 +9,7 @@ import league.fantasy.psl.com.apnicricketleague.model.response.Agent.AgentBeanRe
 import league.fantasy.psl.com.apnicricketleague.model.response.Config.ConfigBeanResponse;
 import league.fantasy.psl.com.apnicricketleague.model.response.Contest.ContestResponse;
 import league.fantasy.psl.com.apnicricketleague.model.response.Insert.InsertResponse;
+import league.fantasy.psl.com.apnicricketleague.model.response.JoinContest.JoinContenstResponse;
 import league.fantasy.psl.com.apnicricketleague.model.response.Login.LoginResponse;
 import league.fantasy.psl.com.apnicricketleague.model.response.Matches.MatchesResponse;
 import league.fantasy.psl.com.apnicricketleague.model.response.Player.PlayerResponse;
@@ -55,6 +56,9 @@ public interface ApiInterface {
 
     @POST("getPlayersMatches")
     Call<PlayerResponse> getPlayersMatches();
+
+    @POST("JoinContest")
+    Call<JoinContenstResponse> JoinContest(@Body TestBeanRequest beanRequest);
 /*    @POST("text")
     Call<String> testService(@Body TestBeanRequest beanRequest);*/
 }

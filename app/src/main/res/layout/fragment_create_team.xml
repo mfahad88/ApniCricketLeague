@@ -244,12 +244,13 @@
     </ScrollView>
 
     <Button
+        android:id="@+id/btn_done"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/btn_done"
-        android:text="Done"
+        android:layout_below="@id/scrollView"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/scrollView"/>
+
+        android:text="Done" />
    <!-- <android.support.design.widget.TabLayout
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"

@@ -61,7 +61,8 @@ public class ContestFragment extends Fragment {
                                 if(response.body().getResponseCode().equals("1001")){
                                     for(Datum datum:response.body().getData()){
                                         if(datum.getIsVisible().equals("1")){
-                                            ContestAdapter adapter=new ContestAdapter(mView.getContext(),R.layout.contest_list,datum,TeamId1,TeamId2,getFragmentManager());
+
+                                            ContestAdapter adapter=new ContestAdapter(mView.getContext(),R.layout.contest_list,datum,TeamId1,TeamId2,datum.getContestId().intValue(),getFragmentManager());
                                             list_contest.setAdapter(adapter);
                                         }
                                     }
