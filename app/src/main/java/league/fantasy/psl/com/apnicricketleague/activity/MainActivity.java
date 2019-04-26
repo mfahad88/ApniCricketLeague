@@ -83,16 +83,18 @@ public class MainActivity extends AppCompatActivity
             menu.add(0,1,0,"Home");
             menu.add(0,2,0,"Profile");
             menu.add(0,3,0,"Rules");
-            menu.add(0,4,0,"Edit Team");
-            menu.add(0,5,0,"Inventory");
+            menu.add(0,4,0,"My leaderboard");
+            menu.add(0,5,0,"My Teams");
+//            menu.add(0,4,0,"Edit Team");
+//            menu.add(0,5,0,"Inventory");
             menu.add(0,6,0,"Shop");
-            menu.add(0,7,0,"Boosters");
-            menu.add(0,8,0,"Wallet");
+//            menu.add(0,7,0,"Boosters");
+//            menu.add(0,8,0,"Wallet");
             menu.add(0,9,0,"About");
             menu.add(0,10,0,"Prizes");
             menu.add(0,11,0,"Contact us");
-            menu.add(0,12,0,"Gold Finance");
-            menu.add(0,13,0,"Agent Locator");
+//            menu.add(0,12,0,"Gold Finance");
+//            menu.add(0,13,0,"Agent Locator");
             menu.add(0,14,0,"Logout");
 
         }catch (Exception e){
@@ -130,6 +132,21 @@ public class MainActivity extends AppCompatActivity
         if(id==3){
             fragment=new RulesFragment();
         }
+        if(id==4){
+            Helper.showAlertNetural(getApplicationContext(),"Error","We are still developing it...");
+//            fragment=new RulesFragment();
+
+        }
+        if(id==5){
+            Helper.showAlertNetural(getApplicationContext(),"Error","We are still developing it...");
+//            fragment=new RulesFragment();
+
+        }
+        if(id==6){
+            Helper.showAlertNetural(getApplicationContext(),"Error","We are still developing it...");
+//            fragment=new RulesFragment();
+
+        }
         if(id==9){
             fragment=new AboutFragment();
         }
@@ -139,13 +156,13 @@ public class MainActivity extends AppCompatActivity
         if(id==11){
             fragment=new ContactUsFragment();
         }
-        if(id==12){
+        /*if(id==12){
             fragment=new ProductLeadFragment();
         }
         if(id==13){
 
             fragment=new AgentLocator();
-        }
+        }*/
         if(id==14){
 
             logout();

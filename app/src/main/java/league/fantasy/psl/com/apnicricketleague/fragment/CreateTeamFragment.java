@@ -1,10 +1,8 @@
 package league.fantasy.psl.com.apnicricketleague.fragment;
 
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -23,6 +21,7 @@ import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -59,19 +58,31 @@ public class CreateTeamFragment extends Fragment {
     View mView;
     TabLayout tabLayout;
     TextView txt_player_counter,txt_team_one,txt_team_two,txt_credits;
+
     Button btn_done;
     RadioGroup radio_group_players;
-    ViewPager pager;
     private int teamId1,teamId2;
-    FragmenttoFragment fragmenttoFragment;
     int counter=0;
     int i=0;
-    LinearLayout team_linear,linear_player_list;
+    LinearLayout team_linear;
     DbHelper dbHelper;
     TableLayout tableLayout;
     List<PlayerBean> beanList;
     int ContestId,userId;
+    int bats_counter=0;
+    int bowl_counter=0;
+    int alrounder_counter=0;
+    int wkt_counter=0;
+    RelativeLayout relativeWkt;
 
+    RelativeLayout relativeBats,relativeBats1,relativeBats2,relativeBats3,relativeBats4,relativeBats5;
+    RelativeLayout relativeBowl,relativeBowl1,relativeBowl2,relativeBowl3,relativeBowl4,relativeBowl5;
+    RelativeLayout relativeAlrounder,relativeAlrounder1,relativeAlrounder2,relativeAlrounder3,relativeAlrounder4,relativeAlrounder5;
+
+    TextView txt_view_wk;
+    TextView txt_batsman1,txt_batsman2,txt_batsman3,txt_batsman4,txt_batsman5;
+    TextView txt_bowl1,txt_bowl2,txt_bowl3,txt_bowl4,txt_bowl5;
+    TextView txt_alrounder1,txt_alrounder2,txt_alrounder3;
     private SharedPreferences preferences;
     public CreateTeamFragment() {
         // Required empty public constructor
@@ -99,7 +110,6 @@ public class CreateTeamFragment extends Fragment {
         }
 
         List<Datum> list=dbHelper.getPlayersById(String.valueOf(teamId1),String.valueOf(teamId2));
-        final List<String> ListElementsArrayList = new ArrayList<String>();
 
         for(final Datum datum:list){
             TextView textView=new TextView(mView.getContext());
@@ -110,12 +120,84 @@ public class CreateTeamFragment extends Fragment {
             ((LinearLayout.LayoutParams) lp).setMarginStart(5);
             textView.setLayoutParams(lp);
             textView.setTextColor(Color.BLACK);
-            textView.setText(datum.getName()+"\n"+datum.getSkill()+"\n"+datum.getPrice());
+            textView.setText(datum.getName()+"\n "+datum.getSkill());
             team_linear.addView(textView);
             textView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     counter++;
+                    Log.e("Skills",datum.getSkill());
+                    if(counter<12) {
+                        if (datum.getSkill().equals("0")) {
+                            bats_counter++;
+                        }
+                        if (datum.getSkill().equals("1")) {
+                            bowl_counter++;
+                        }
+                        if (datum.getSkill().equals("2")) {
+                            alrounder_counter++;
+                        }
+                        if (datum.getSkill().equals("3")) {
+                            wkt_counter++;
+                        }
+
+                        if(wkt_counter==1){
+                            relativeWkt.setVisibility(View.VISIBLE);
+                            txt_view_wk.setText(datum.getName());
+                        }
+
+                        if(bats_counter==1){
+//                            relativeBats.setVisibility(View.VISIBLE);
+                            relativeBats1.setVisibility(View.VISIBLE);
+                            Log.e("CreateTeam",datum.getName());
+                            txt_batsman1.setText(datum.getName());
+                        }if(bats_counter==2){
+                            relativeBats2.setVisibility(View.VISIBLE);
+                            txt_batsman2.setText(datum.getName());
+                        }if(bats_counter==3){
+                            relativeBats3.setVisibility(View.VISIBLE);
+                            txt_batsman3.setText(datum.getName());
+                        }if(bats_counter==4){
+                            relativeBats4.setVisibility(View.VISIBLE);
+                            txt_batsman4.setText(datum.getName());
+                        }if(bats_counter==5){
+                            relativeBats5.setVisibility(View.VISIBLE);
+                            txt_batsman5.setText(datum.getName());
+                        }
+
+                        if(bowl_counter==1){
+//                            relativeBowl.setVisibility(View.VISIBLE);
+                            relativeBowl1.setVisibility(View.VISIBLE);
+                            txt_bowl1.setText(datum.getName());
+                        }if(bowl_counter==2){
+                            relativeBowl2.setVisibility(View.VISIBLE);
+                            txt_bowl2.setText(datum.getName());
+                        }if(bowl_counter==3){
+                            relativeBowl3.setVisibility(View.VISIBLE);
+                            txt_bowl3.setText(datum.getName());
+                        }if(bowl_counter==4){
+                            relativeBowl4.setVisibility(View.VISIBLE);
+                            txt_bowl4.setText(datum.getName());
+                        }if(bowl_counter==5){
+                            relativeBowl5.setVisibility(View.VISIBLE);
+                            txt_bowl5.setText(datum.getName());
+                        }
+
+                        if(alrounder_counter==1){
+                            relativeAlrounder.setVisibility(View.VISIBLE);
+                            relativeAlrounder1.setVisibility(View.VISIBLE);
+                            txt_alrounder1.setText(datum.getName());
+                        }if(bowl_counter==2){
+                            relativeAlrounder2.setVisibility(View.VISIBLE);
+                            txt_alrounder2.setText(datum.getName());
+                        }if(bowl_counter==3){
+                            relativeAlrounder3.setVisibility(View.VISIBLE);
+                            txt_alrounder3.setText(datum.getName());
+                        }
+
+                    }
+
+                    /*counter++;
                     if(counter<12) {
                         final PlayerBean bean=new PlayerBean();
                         final TableRow tableRow = new TableRow(mView.getContext());
@@ -159,9 +241,7 @@ public class CreateTeamFragment extends Fragment {
                             }
                         });
 
-                       // if(counter==11) {
 
-                        //}
                         beanList.add(bean);
                     }
                     if(counter==11){
@@ -216,7 +296,7 @@ public class CreateTeamFragment extends Fragment {
                                         });
                             }
                         });
-                    }
+                    }*/
                 }
 
             });
@@ -238,21 +318,30 @@ public class CreateTeamFragment extends Fragment {
         team_linear=mView.findViewById(R.id.team_linear);
         dbHelper=new DbHelper(getActivity());
         preferences=mView.getContext().getSharedPreferences(Helper.SHARED_PREF,Context.MODE_PRIVATE);
-//        list_players=mView.findViewById(R.id.lv_players);
-//        linear_player_list=mView.findViewById(R.id.linear_player_list);
-        tableLayout=mView.findViewById(R.id.tableLayout);
         btn_done=mView.findViewById(R.id.btn_done);
-        /*pager=mView.findViewById(R.id.pager);
-        btn_done=mView.findViewById(R.id.btn_done);*/
+
+        relativeWkt=mView.findViewById(R.id.relative_Wicket);
+        txt_view_wk=mView.findViewById(R.id.textNameWicket);
+
+        relativeBats=mView.findViewById(R.id.relative_Batsman);
+        relativeBats1=mView.findViewById(R.id.relative_Batsman1);
+        relativeBats2=mView.findViewById(R.id.relative_Batsman2);
+        relativeBats3=mView.findViewById(R.id.relative_Batsman3);
+        relativeBats4=mView.findViewById(R.id.relative_Batsman4);
+        relativeBats5=mView.findViewById(R.id.relative_Batsman5);
+
+        relativeBowl=mView.findViewById(R.id.relative_Bowler);
+        relativeBowl1=mView.findViewById(R.id.relative_Bowler1);
+        relativeBowl2=mView.findViewById(R.id.relative_Bowler2);
+        relativeBowl3=mView.findViewById(R.id.relative_Bowler3);
+        relativeBowl4=mView.findViewById(R.id.relative_Bowler4);
+        relativeBowl5=mView.findViewById(R.id.relative_Bowler5);
+
+        relativeAlrounder=mView.findViewById(R.id.relative_Alrounder);
+        relativeAlrounder1=mView.findViewById(R.id.relative_Alrounder1);
+        relativeAlrounder2=mView.findViewById(R.id.relative_Alrounder2);
+        relativeAlrounder3=mView.findViewById(R.id.relative_Alrounder3);
+
     }
 
-   /* @Override
-    p""}ublic void onAttach(Context context) {
-        try {
-            fragmenttoFragment = (FragmenttoFragment) context;
-        }catch (ClassCastException e){
-            e.printStackTrace();
-        }
-        super.onAttach(context);
-    }*/
 }
