@@ -3,6 +3,7 @@ package league.fantasy.psl.com.apnicricketleague.activity;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -15,6 +16,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,6 +33,7 @@ import league.fantasy.psl.com.apnicricketleague.client.ApiClient;
 import league.fantasy.psl.com.apnicricketleague.fragment.AboutFragment;
 import league.fantasy.psl.com.apnicricketleague.fragment.AgentLocator;
 import league.fantasy.psl.com.apnicricketleague.fragment.ContactUsFragment;
+import league.fantasy.psl.com.apnicricketleague.fragment.CreateTeamFragment;
 import league.fantasy.psl.com.apnicricketleague.fragment.DashboardFragment;
 import league.fantasy.psl.com.apnicricketleague.fragment.PrizesFragment;
 import league.fantasy.psl.com.apnicricketleague.fragment.ProductLeadFragment;
@@ -48,6 +51,8 @@ public class MainActivity extends AppCompatActivity
     JSONObject jsonObject;
     Fragment fragment = null;
     DbHelper dbHelper;
+    Boolean isLogin=false;
+    Boolean isTeam=false;
     @Override
     protected void onResume() {
         super.onResume();
@@ -61,15 +66,36 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         try {
+            Intent i=getIntent();
+            if(i.getExtras()!=null){
+                isTeam=i.getExtras().getBoolean("isTeam");
+            }
+
             dbHelper=new DbHelper(this);
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
             preferences=getSharedPreferences(Helper.SHARED_PREF,Context.MODE_PRIVATE);
+
+            if(isTeam){
+                fragment=new CreateTeamFragment();
+                Bundle bundle=new Bundle();
+                bundle.putInt("GetFromSession",1);
+                fragment.setArguments(bundle);
+                /*FragmentTransaction ft1=getSupportFragmentManager().beginTransaction();
+                ft1.replace(R.id.content_frame,fragment);
+                ft1.commit();*/
+
+            }else{
+                fragment=new DashboardFragment();
+            }
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.add(R.id.content_frame, new DashboardFragment());
+            ft.add(R.id.content_frame, fragment);
             ft.commit();
 
-            jsonObject = new JSONObject(Helper.getUserSession(preferences,Helper.MY_USER).toString());
+            if(!TextUtils.isEmpty(Helper.getUserSession(preferences,Helper.MY_USER).toString())) {
+                jsonObject = new JSONObject(Helper.getUserSession(preferences, Helper.MY_USER).toString());
+                isLogin=true;
+            }
 
             DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
             ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -95,7 +121,12 @@ public class MainActivity extends AppCompatActivity
             menu.add(0,11,0,"Contact us");
 //            menu.add(0,12,0,"Gold Finance");
 //            menu.add(0,13,0,"Agent Locator");
-            menu.add(0,14,0,"Logout");
+            if(isLogin) {
+                menu.add(0, 14, 0, "Logout");
+            }
+
+
+
 
         }catch (Exception e){
 

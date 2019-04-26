@@ -31,6 +31,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private EditText edt_mobile_no,edt_password;
     private SharedPreferences sharedpreferences;
     private DbHelper dbHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,6 +73,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 if(response.body().getResponseCode().equals("1001")){
                                     Helper.putUserSession(sharedpreferences,Helper.MY_USER,response.body().getData().getMyUser());
                                     Intent intent=new Intent(getApplicationContext(),MainActivity.class);
+                                    intent.putExtra("isTeam",true);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                     startActivity(intent);
 

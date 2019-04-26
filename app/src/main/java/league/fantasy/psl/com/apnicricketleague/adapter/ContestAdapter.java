@@ -1,6 +1,7 @@
 package league.fantasy.psl.com.apnicricketleague.adapter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -23,6 +24,7 @@ import java.util.Collections;
 import java.util.List;
 
 import league.fantasy.psl.com.apnicricketleague.R;
+import league.fantasy.psl.com.apnicricketleague.Utils.Helper;
 import league.fantasy.psl.com.apnicricketleague.fragment.CreateTeamFragment;
 import league.fantasy.psl.com.apnicricketleague.model.response.Contest.Datum;
 
@@ -33,6 +35,7 @@ public class ContestAdapter extends ArrayAdapter<Datum> {
     private int teamId1,teamId2;
     private FragmentManager fragmentManager;
     private int ContestId;
+    SharedPreferences preferences;
     public ContestAdapter(Context context, int resource, Datum datum, int teamId1, int teamId2,int ContestId, FragmentManager fragmentManager) {
         super(context, resource, Collections.singletonList(datum));
         this.context=context;
@@ -58,6 +61,7 @@ public class ContestAdapter extends ArrayAdapter<Datum> {
         if(convertView==null){
             row=LayoutInflater.from(context).inflate(resource,parent,false);
         }
+        preferences=context.getSharedPreferences(Helper.SHARED_PREF,Context.MODE_PRIVATE);
 //        Datum datum=list.get(position);
         TextView txt_price=row.findViewById(R.id.txt_price);
         TextView txt_discount=row.findViewById(R.id.txt_discount);
@@ -103,7 +107,8 @@ public class ContestAdapter extends ArrayAdapter<Datum> {
                     Bundle bundle=new Bundle();
                     bundle.putInt("TeamId1",teamId1);
                     bundle.putInt("TeamId2",teamId2);
-                    bundle.putInt("ContestId",ContestId);
+                    preferences.edit().putInt("ContestId",ContestId).commit();
+
                     fragment.setArguments(bundle);
                     FragmentTransaction ft = fragmentManager.beginTransaction();
                     ft.replace(R.id.content_frame, fragment);

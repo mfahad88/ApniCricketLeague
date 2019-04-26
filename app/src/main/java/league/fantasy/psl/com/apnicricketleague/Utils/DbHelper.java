@@ -11,6 +11,7 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
+import league.fantasy.psl.com.apnicricketleague.model.game.PlayerBean;
 import league.fantasy.psl.com.apnicricketleague.model.response.Player.Datum;
 
 
@@ -77,6 +78,19 @@ public class DbHelper extends SQLiteOpenHelper {
             ", "+cd+" TEXT" +
             ", "+md+" TEXT)";
 
+    private static String ID = "Id";
+    private static String NAME = "Name";
+    private static String PRICE = "Price";
+    private static String SKILLS = "Skills";
+    private static String ISCAPTAIN = "IsCaptain";
+    private static String ISWCAPTAIN = "isWCaption" ;
+    private static String TBL_MY_TEAM = "tbl_my_team";
+    public static final String CREATE_TBL_MY_TEAM="CREATE TABLE "+TBL_MY_TEAM+ "("+ID+ " INTEGER " +
+            ", "+NAME+" TEXT " +
+            ", "+PRICE+" TEXT" +
+            ", "+SKILLS+" TEXT" +
+            ", "+ISCAPTAIN+" INTEGER" +
+            ", "+ISWCAPTAIN+" INTEGER)";
     Context cntxt;
 
 
@@ -91,6 +105,7 @@ public class DbHelper extends SQLiteOpenHelper {
         Log.e("SQLiteDatabase",CREATE_PLAYERS);
         db.execSQL(CREATE_CONFIG);
         db.execSQL(CREATE_PLAYERS);
+        db.execSQL(CREATE_TBL_MY_TEAM);
 
     }
 
@@ -98,6 +113,7 @@ public class DbHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TBL_CONFIG);
         db.execSQL("DROP TABLE IF EXISTS "+ TBL_PLAYERS);
+        db.execSQL("DROP TABLE IF EXISTS "+ TBL_MY_TEAM);
         onCreate(db);
     }
 
@@ -276,6 +292,73 @@ public class DbHelper extends SQLiteOpenHelper {
         return list;
     }
 
+    public long saveMyTeam(List<PlayerBean> list) {
+        // Gets the data repository in write mode
+        long processId = 0;
+        SQLiteDatabase db=null;
+
+        try{
+            db = this.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            for(PlayerBean bean:list){
+                values.put(ID,bean.getId());
+                values.put(NAME,bean.getName());
+                values.put(PRICE,bean.getPrice());
+                values.put(SKILLS,bean.getSkills());
+                values.put(ISCAPTAIN,bean.getIsCaptain());
+                values.put(ISWCAPTAIN,bean.getIsWCaption());
+                processId = db.insert(TBL_MY_TEAM, null, values);
+                Log.e("SQLiteDatabase",bean.toString());
+            }
+
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }	finally
+        {
+            if(db!=null)
+                if(db.isOpen())
+                    db.close();
+        }
+
+        return processId;
+    }
+
+    public List<PlayerBean> getMyTeam(){
+        List<PlayerBean> list = new ArrayList<>();
+        Cursor c = null ;
+        try {
+
+            String query = "SELECT * FROM " + TBL_MY_TEAM ;
+
+            SQLiteDatabase db = this.getReadableDatabase();
+            c = db.rawQuery(query, null);
+
+            if (c.moveToFirst()) {
+                do {
+                    PlayerBean bean=new PlayerBean();
+                    bean.setId(c.getInt(c.getColumnIndex(ID)));
+                    bean.setName(c.getString(c.getColumnIndex(NAME)));
+                    bean.setPrice(c.getString(c.getColumnIndex(PRICE)));
+                    bean.setSkills(c.getString(c.getColumnIndex(SKILLS)));
+                    bean.setIsCaptain(c.getInt(c.getColumnIndex(ISCAPTAIN)));
+                    bean.setIsWCaption(c.getInt(c.getColumnIndex(ISWCAPTAIN)));
+                    list.add(bean);
+                    Log.e("Value--->",list.toString());
+                } while (c.moveToNext());
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally{
+            if(c!=null)
+                c.close();
+
+        }
+        return list;
+    }
+
     public List<String> getConfig(){
         List<String> list = new ArrayList<>();
         Cursor c = null ;
@@ -321,6 +404,19 @@ public class DbHelper extends SQLiteOpenHelper {
     public void deletePlayer(){
         try {
             String query="delete from "+ TBL_PLAYERS;
+            SQLiteDatabase db = this.getWritableDatabase();
+            db.execSQL(query);
+            Log.e("SQLiteDatabase",query);
+            db.close();
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteMyTeam(){
+        try {
+            String query="delete from "+ TBL_MY_TEAM;
             SQLiteDatabase db = this.getWritableDatabase();
             db.execSQL(query);
             Log.e("SQLiteDatabase",query);

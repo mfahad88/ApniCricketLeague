@@ -221,526 +221,69 @@
             />
 
     </HorizontalScrollView>
-
-    <RelativeLayout
-        android:id="@+id/linear_ground"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="315dp"
+        android:layout_height="240dp"
+        android:id="@+id/scrollView"
+        android:layout_below="@id/horizontal_players">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="240dp"
         android:layout_below="@id/horizontal_players"
-        android:background="@drawable/pitch"
+        android:id="@+id/linear_player_list"
+        android:layout_gravity="center_horizontal"
         android:orientation="vertical">
 
-
-        <RelativeLayout
-            android:layout_width="85dp"
-            android:layout_height="35dp"
-            android:id="@+id/relative_Wicket"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="20dp"
-            android:visibility="gone"
-            android:layout_marginRight="55dp">
-
-            <ImageView
-                android:id="@+id/imageViewWicket"
-                android:layout_width="27dp"
-                android:layout_height="27dp"
-                android:layout_marginLeft="2dp"
-                android:layout_marginTop="1dp"
-                android:scaleType="centerInside"
-                android:alpha=".5"
-                android:background="@drawable/wicket_keeper_field_icon" />
-
-            <TextView
-                android:layout_width="50dp"
-                android:layout_height="30dp"
-                android:text="Muhammad fahad aghar waseem"
-                android:textSize="6sp"
-                android:textStyle="bold"
-                android:textAlignment="center"
-                android:layout_centerVertical="true"
-                android:textColor="@android:color/white"
-                android:id="@+id/textNameWicket"
-                android:layout_toRightOf="@id/imageViewWicket"/>
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="250dp"
+        <TableLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="120dp"
-            android:id="@+id/relative_Batsman"
-            android:visibility="visible"
-            android:layout_marginTop="70dp">
-            <RelativeLayout
-                android:layout_width="45dp"
-                android:layout_height="60dp"
-                android:layout_marginTop="5dp"
-                android:id="@+id/relative_Batsman1"
-                android:layout_marginRight="5dp"
-                android:visibility="gone"
-                android:layout_alignParentRight="true">
-
-                <ImageView
-                    android:id="@+id/imageViewBatsman1"
-                    android:layout_width="27dp"
-                    android:layout_height="27dp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginLeft="2dp"
-                    android:layout_marginTop="1dp"
-                    android:scaleType="centerInside"
-                    android:alpha=".5"
-                    android:background="@drawable/batsman_field_icon" />
-
-                <TextView
-                    android:layout_width="50dp"
-                    android:layout_height="30dp"
-                    android:text="Muhammad fahad aghar waseem"
-                    android:textSize="6sp"
-                    android:textStyle="bold"
-                    android:textAlignment="center"
-                    android:layout_centerVertical="true"
-                    android:textColor="@android:color/white"
-                    android:id="@+id/textNameBatsman1"
-                    android:layout_below="@id/imageViewBatsman1"/>
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="45dp"
-                android:layout_height="60dp"
-                android:layout_marginTop="5dp"
-                android:id="@+id/relative_Batsman2"
-                android:visibility="gone"
-                android:layout_marginRight="5dp"
-                android:layout_toLeftOf="@id/relative_Batsman1">
-
-                <ImageView
-                    android:id="@+id/imageViewBatsman2"
-                    android:layout_width="27dp"
-                    android:layout_height="27dp"
-                    android:layout_marginLeft="2dp"
-                    android:layout_marginTop="1dp"
-                    android:scaleType="centerInside"
-                    android:layout_centerHorizontal="true"
-                    android:alpha=".5"
-                    android:background="@drawable/batsman_field_icon" />
-
-                <TextView
-                    android:layout_width="50dp"
-                    android:layout_height="30dp"
-                    android:text="Muhammad fahad aghar waseem"
-                    android:textSize="6sp"
-                    android:textStyle="bold"
-                    android:textAlignment="center"
-                    android:layout_centerVertical="true"
-                    android:textColor="@android:color/white"
-                    android:id="@+id/textNameBatsman2"
-                    android:layout_below="@id/imageViewBatsman2"/>
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="45dp"
-                android:layout_height="60dp"
-                android:layout_marginTop="5dp"
-                android:id="@+id/relative_Batsman3"
-                android:visibility="gone"
-                android:layout_toLeftOf="@id/relative_Batsman2"
-                android:layout_marginRight="5dp">
-
-                <ImageView
-                    android:id="@+id/imageViewBatsman3"
-                    android:layout_width="27dp"
-                    android:layout_height="27dp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginLeft="2dp"
-                    android:layout_marginTop="1dp"
-                    android:scaleType="centerInside"
-                    android:alpha=".5"
-                    android:background="@drawable/batsman_field_icon" />
-
-                <TextView
-                    android:layout_width="50dp"
-                    android:layout_height="30dp"
-                    android:text="Muhammad fahad aghar waseem"
-                    android:textSize="6sp"
-                    android:textStyle="bold"
-                    android:textAlignment="center"
-                    android:layout_centerVertical="true"
-                    android:textColor="@android:color/white"
-                    android:id="@+id/textNameBatsman3"
-                    android:layout_below="@id/imageViewBatsman3"/>
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="45dp"
-                android:layout_height="60dp"
-                android:layout_marginTop="5dp"
-                android:visibility="gone"
-                android:id="@+id/relative_Batsman4"
-                android:layout_toLeftOf="@id/relative_Batsman3"
-                android:layout_marginRight="5dp">
-
-                <ImageView
-                    android:id="@+id/imageViewBatsman4"
-                    android:layout_width="27dp"
-                    android:layout_height="27dp"
-                    android:layout_marginLeft="2dp"
-                    android:layout_marginTop="1dp"
-                    android:layout_centerHorizontal="true"
-                    android:scaleType="centerInside"
-                    android:alpha=".5"
-                    android:background="@drawable/batsman_field_icon" />
-
-                <TextView
-                    android:layout_width="50dp"
-                    android:layout_height="30dp"
-                    android:text="Muhammad fahad aghar waseem"
-                    android:textSize="6sp"
-                    android:textStyle="bold"
-                    android:textAlignment="center"
-                    android:layout_centerVertical="true"
-                    android:textColor="@android:color/white"
-                    android:id="@+id/textNameBatsman4"
-                    android:layout_below="@id/imageViewBatsman4"/>
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="45dp"
-                android:layout_height="60dp"
-                android:layout_marginTop="5dp"
-                android:id="@+id/relative_Batsman5"
-                android:visibility="gone"
-                android:layout_toLeftOf="@id/relative_Batsman4"
-                android:layout_marginRight="5dp">
-
-                <ImageView
-                    android:id="@+id/imageViewBatsman5"
-                    android:layout_width="27dp"
-                    android:layout_height="27dp"
-                    android:layout_marginLeft="2dp"
-                    android:layout_marginTop="1dp"
-                    android:layout_centerHorizontal="true"
-                    android:scaleType="centerInside"
-                    android:alpha=".5"
-                    android:background="@drawable/batsman_field_icon" />
-
-                <TextView
-                    android:layout_width="50dp"
-                    android:layout_height="30dp"
-                    android:text="Muhammad fahad aghar waseem"
-                    android:textSize="6sp"
-                    android:textStyle="bold"
-                    android:textAlignment="center"
-                    android:layout_centerVertical="true"
-                    android:textColor="@android:color/white"
-                    android:id="@+id/textNameBatsman5"
-                    android:layout_below="@id/imageViewBatsman5"/>
-
-            </RelativeLayout>
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="100dp"
-            android:layout_marginTop="130dp"
-            android:visibility="visible"
-            android:id="@+id/relative_Alrounder">
-            <RelativeLayout
-                android:layout_width="45dp"
-                android:layout_height="60dp"
-                android:layout_marginTop="5dp"
-                android:id="@+id/relative_Alrounder1"
-                android:visibility="gone"
-                android:layout_marginRight="5dp"
-                android:layout_alignParentRight="true">
-
-                <ImageView
-                    android:id="@+id/imageViewAlrounder1"
-                    android:layout_width="27dp"
-                    android:layout_height="27dp"
-                    android:layout_centerHorizontal="true"
-                    android:visibility="gone"
-                    android:layout_marginLeft="2dp"
-                    android:layout_marginTop="1dp"
-                    android:scaleType="centerInside"
-                    android:alpha=".5"
-                    android:background="@drawable/bowler_field_icon" />
-
-                <TextView
-                    android:layout_width="50dp"
-                    android:layout_height="30dp"
-                    android:text="Muhammad fahad aghar waseem"
-                    android:textSize="6sp"
-                    android:textStyle="bold"
-                    android:textAlignment="center"
-                    android:visibility="gone"
-                    android:layout_centerVertical="true"
-                    android:textColor="@android:color/white"
-                    android:id="@+id/textNameAlrounder1"
-                    android:layout_below="@id/imageViewAlrounder1"/>
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="45dp"
-                android:layout_height="60dp"
-                android:layout_marginTop="5dp"
-                android:id="@+id/relative_Alrounder2"
-                android:visibility="gone"
-                android:layout_marginRight="5dp"
-                android:layout_toLeftOf="@id/relative_Alrounder1">
-
-                <ImageView
-                    android:id="@+id/imageViewAlrounder2"
-                    android:layout_width="27dp"
-                    android:layout_height="27dp"
-                    android:layout_marginLeft="2dp"
-                    android:layout_marginTop="1dp"
-                    android:scaleType="centerInside"
-                    android:layout_centerHorizontal="true"
-                    android:alpha=".5"
-                    android:background="@drawable/bowler_field_icon" />
-
-                <TextView
-                    android:layout_width="50dp"
-                    android:layout_height="30dp"
-                    android:text="Muhammad fahad aghar waseem"
-                    android:textSize="6sp"
-                    android:textStyle="bold"
-                    android:textAlignment="center"
-                    android:layout_centerVertical="true"
-                    android:textColor="@android:color/white"
-                    android:id="@+id/textNameAlrounder2"
-                    android:layout_below="@id/imageViewAlrounder2"/>
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="45dp"
-                android:layout_height="60dp"
-                android:layout_marginTop="5dp"
-                android:visibility="gone"
-                android:id="@+id/relative_Alrounder3"
-                android:layout_toLeftOf="@id/relative_Alrounder2"
-                android:layout_marginRight="5dp">
-
-                <ImageView
-                    android:id="@+id/imageViewAlrounder3"
-                    android:layout_width="27dp"
-                    android:layout_height="27dp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginLeft="2dp"
-                    android:layout_marginTop="1dp"
-                    android:scaleType="centerInside"
-                    android:alpha=".5"
-                    android:background="@drawable/bowler_field_icon" />
-
-                <TextView
-                    android:layout_width="50dp"
-                    android:layout_height="30dp"
-                    android:text="Muhammad fahad aghar waseem"
-                    android:textSize="6sp"
-                    android:textStyle="bold"
-                    android:textAlignment="center"
-                    android:layout_centerVertical="true"
-                    android:textColor="@android:color/white"
-                    android:id="@+id/textNameAlrounder3"
-                    android:layout_below="@id/imageViewAlrounder3"/>
-
-            </RelativeLayout>
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
-            android:id="@+id/relative_Bowler"
-            android:visibility="visible"
-            android:layout_marginTop="240dp">
-            <RelativeLayout
-                android:layout_width="45dp"
-                android:layout_height="60dp"
-                android:layout_marginTop="5dp"
-                android:visibility="gone"
-                android:id="@+id/relative_Bowler1"
-                android:layout_marginRight="5dp"
-                android:layout_alignParentRight="true">
-
-                <ImageView
-                    android:id="@+id/imageViewBowler1"
-                    android:layout_width="27dp"
-                    android:layout_height="27dp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginLeft="2dp"
-                    android:layout_marginTop="1dp"
-                    android:scaleType="centerInside"
-                    android:alpha=".5"
-                    android:background="@drawable/batsman_field_icon" />
-
-                <TextView
-                    android:layout_width="50dp"
-                    android:layout_height="30dp"
-                    android:text="Muhammad fahad aghar waseem"
-                    android:textSize="6sp"
-                    android:textStyle="bold"
-                    android:textAlignment="center"
-                    android:layout_centerVertical="true"
-                    android:textColor="@android:color/white"
-                    android:id="@+id/textNameBowler1"
-                    android:layout_below="@id/imageViewBowler1"/>
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="45dp"
-                android:layout_height="60dp"
-                android:layout_marginTop="5dp"
-                android:visibility="gone"
-                android:id="@+id/relative_Bowler2"
-                android:layout_marginRight="5dp"
-                android:layout_toLeftOf="@id/relative_Bowler1">
-
-                <ImageView
-                    android:id="@+id/imageViewBowler2"
-                    android:layout_width="27dp"
-                    android:layout_height="27dp"
-                    android:layout_marginLeft="2dp"
-                    android:layout_marginTop="1dp"
-                    android:scaleType="centerInside"
-                    android:layout_centerHorizontal="true"
-                    android:alpha=".5"
-                    android:background="@drawable/batsman_field_icon" />
-
-                <TextView
-                    android:layout_width="50dp"
-                    android:layout_height="30dp"
-                    android:text="Muhammad fahad aghar waseem"
-                    android:textSize="6sp"
-                    android:textStyle="bold"
-                    android:textAlignment="center"
-                    android:layout_centerVertical="true"
-                    android:textColor="@android:color/white"
-                    android:id="@+id/textNameBowler2"
-                    android:layout_below="@id/imageViewBowler2"/>
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="45dp"
-                android:layout_height="60dp"
-                android:layout_marginTop="5dp"
-                android:visibility="gone"
-                android:id="@+id/relative_Bowler3"
-                android:layout_toLeftOf="@id/relative_Bowler2"
-                android:layout_marginRight="5dp">
-
-                <ImageView
-                    android:id="@+id/imageViewBowler3"
-                    android:layout_width="27dp"
-                    android:layout_height="27dp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginLeft="2dp"
-                    android:layout_marginTop="1dp"
-                    android:scaleType="centerInside"
-                    android:alpha=".5"
-                    android:background="@drawable/batsman_field_icon" />
-
-                <TextView
-                    android:layout_width="50dp"
-                    android:layout_height="30dp"
-                    android:text="Muhammad fahad aghar waseem"
-                    android:textSize="6sp"
-                    android:textStyle="bold"
-                    android:textAlignment="center"
-                    android:layout_centerVertical="true"
-                    android:textColor="@android:color/white"
-                    android:id="@+id/textNameBowler3"
-                    android:layout_below="@id/imageViewBowler3"/>
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="45dp"
-                android:layout_height="60dp"
-                android:layout_marginTop="5dp"
-                android:id="@+id/relative_Bowler4"
-                android:visibility="gone"
-                android:layout_toLeftOf="@id/relative_Bowler3"
-                android:layout_marginRight="5dp">
-
-                <ImageView
-                    android:id="@+id/imageViewBowler4"
-                    android:layout_width="27dp"
-                    android:layout_height="27dp"
-                    android:layout_marginLeft="2dp"
-                    android:layout_marginTop="1dp"
-                    android:layout_centerHorizontal="true"
-                    android:scaleType="centerInside"
-                    android:alpha=".5"
-                    android:background="@drawable/batsman_field_icon" />
-
-                <TextView
-                    android:layout_width="50dp"
-                    android:layout_height="30dp"
-                    android:text="Muhammad fahad aghar waseem"
-                    android:textSize="6sp"
-                    android:textStyle="bold"
-                    android:textAlignment="center"
-                    android:layout_centerVertical="true"
-                    android:textColor="@android:color/white"
-                    android:id="@+id/textNameBowler4"
-                    android:layout_below="@id/imageViewBowler4"/>
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="45dp"
-                android:layout_height="60dp"
-                android:layout_marginTop="5dp"
-                android:visibility="gone"
-                android:id="@+id/relative_Bowler5"
-                android:layout_toLeftOf="@id/relative_Bowler4"
-                android:layout_marginRight="5dp">
-
-                <ImageView
-                    android:id="@+id/imageViewBowler5"
-                    android:layout_width="27dp"
-                    android:layout_height="27dp"
-                    android:layout_marginLeft="2dp"
-                    android:layout_marginTop="1dp"
-                    android:layout_centerHorizontal="true"
-                    android:scaleType="centerInside"
-                    android:alpha=".5"
-                    android:background="@drawable/batsman_field_icon" />
-
-                <TextView
-                    android:layout_width="50dp"
-                    android:layout_height="30dp"
-                    android:text="Muhammad fahad aghar waseem"
-                    android:textSize="6sp"
-                    android:textStyle="bold"
-                    android:textAlignment="center"
-                    android:layout_centerVertical="true"
-                    android:textColor="@android:color/white"
-                    android:id="@+id/textNameBowler5"
-                    android:layout_below="@id/imageViewBowler5"/>
-
-            </RelativeLayout>
-        </RelativeLayout>
-    </RelativeLayout>
-
+            android:background="@android:color/holo_red_dark"
+            android:id="@+id/tableLayout">
+        </TableLayout>
+    </LinearLayout>
+    </ScrollView>
+    
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Preview"
+        android:layout_below="@id/scrollView"
+        android:id="@+id/btn_preview"
+        android:layout_toLeftOf="@id/btn_done"/>
     <Button
         android:id="@+id/btn_done"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/linear_ground"
+        android:layout_below="@id/scrollView"
         android:layout_centerHorizontal="true"
+        android:enabled="false"
         android:text="Done" />
+   <!-- <android.support.design.widget.TabLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="6dp"
+        android:layout_below="@id/relative_header"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="270dp"
+        android:layout_below="@id/tab_layout"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_done"
+        android:text="done"
+        android:layout_below="@id/pager"
+        android:layout_centerHorizontal="true"
+        android:enabled="false"
+        />-->
+  <!--  <ListView
+        android:layout_width="match_parent"
+        android:layout_height="310dp"
+        android:layout_below="@id/relative_header"></ListView>-->
 </RelativeLayout>
